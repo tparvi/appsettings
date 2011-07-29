@@ -1,0 +1,14 @@
+
+*.user
+*.suo
+*.vsp
+*.sln.cache
+*.[Cc]ache
+*.exe
+*.obj
+*.pdb
+[bB]in/
+[oO]bj/
+_ReSharper.*
+*.resharper
+[Tt]est[Rr]esult*
