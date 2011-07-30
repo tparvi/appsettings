@@ -8,5 +8,7 @@
     public class TestBase
     {
         public static readonly string SimpleConfigFile = "simple.config";
+
+        public static readonly string NonExistingConfigFile = "NonExistingConfig.config";
     }
 }
