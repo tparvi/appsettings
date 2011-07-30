@@ -33,6 +33,8 @@
         /// </param>
         public AppSettings(string fileName)
         {
+            this.ValidateFilePath(fileName);
+
             var fileMap = new ExeConfigurationFileMap();
             fileMap.ExeConfigFilename = fileName;
             this.Configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
@@ -64,5 +66,17 @@
         /// Gets Configuration.
         /// </summary>
         protected Configuration Configuration { get; private set; }
+
+        private void ValidateFilePath(string fileName)
+        {
+            try
+            {
+                System.IO.Path.GetFullPath(fileName);
+            }
+            catch (Exception exp)
+            {
+                throw new AppSettingException("The path to configuration file is invalid", exp);
+            }
+        }
     }
 }
