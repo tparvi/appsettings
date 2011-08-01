@@ -9,6 +9,8 @@ namespace ApplicationSettingsTests
 
     using ApplicationSettings;
 
+    using ApplicationSettingsTests.Configurations;
+
     using NUnit.Framework;
 
     [TestFixture]
@@ -17,8 +19,8 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_reading_absolute_path_should_succeed()
         {
-            var fileName = TestHelpers.GetFullPathToConfigurationFile(SimpleConfigFile);
-            
+            var fileName = SimpleConfig.AbsolutePathToSimpleConfigFile;
+
             var settings = new AppSettings(fileName);
 
             Assert.AreEqual(fileName, settings.FullPath);
@@ -29,11 +31,10 @@ namespace ApplicationSettingsTests
         public void Then_relative_path_should_be_converted_to_aboslute_path()
         {   
             // Using only file name so that the path is relative         
-            var settings = new AppSettings(SimpleConfigFile);
+            var settings = new AppSettings(TestHelpers.GetRelativePathToConfigurationFile(SimpleConfig.SimpleConfigFile));
 
             // This is the absolute path to the file
-            var absoluteFileName = TestHelpers.GetFullPathToConfigurationFile(SimpleConfigFile);
-            Assert.AreEqual(absoluteFileName, settings.FullPath);
+            Assert.AreEqual(SimpleConfig.AbsolutePathToSimpleConfigFile, settings.FullPath);
             Assert.IsTrue(settings.FileExists);                        
         }
 
@@ -45,7 +46,7 @@ namespace ApplicationSettingsTests
 
 
         [Test]
-        public void And_file_does_not_exist_then_exception_should_be_thrown()
+        public void And_file_does_not_exist_then_exception_is_thrown()
         {
             var fileName = TestHelpers.GetFullPathToConfigurationFile(NonExistingConfigFile);
 

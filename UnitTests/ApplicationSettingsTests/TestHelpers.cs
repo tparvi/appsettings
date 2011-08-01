@@ -10,13 +10,22 @@
     {
         public static string GetFullPathToConfigurationFile(string fileName)
         {
+            var path = GetAbsolutePathToTestAssembly();
+            var configurationPath = System.IO.Path.Combine(path, "Configurations");
+            
+            return System.IO.Path.Combine(configurationPath, fileName);
+        }
+
+        public static string GetRelativePathToConfigurationFile(string fileName)
+        {            
+            return System.IO.Path.Combine("Configurations", fileName);
+        }
+
+        private static string GetAbsolutePathToTestAssembly()
+        {
             var assembly = Assembly.GetAssembly(typeof(TestHelpers));
             var uri = new Uri(assembly.CodeBase);
-            var path = System.IO.Path.GetDirectoryName(uri.AbsolutePath);
-
-            //var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);)
-            return System.IO.Path.Combine(path, fileName);
-            //System.IO.Path.fu
+            return System.IO.Path.GetDirectoryName(uri.AbsolutePath);            
         }
     }
 }

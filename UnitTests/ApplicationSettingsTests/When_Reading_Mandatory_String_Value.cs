@@ -9,6 +9,8 @@ namespace ApplicationSettingsTests
 
     using ApplicationSettings;
 
+    using ApplicationSettingsTests.Configurations;
+
     using NUnit.Framework;
 
     [TestFixture]
@@ -17,9 +19,9 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_value_should_be_returned()
         {
-            var settings = new AppSettings(this.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
 
-            var value = settings.GetValue("NonEmptyStringValue");
+            var value = settings.GetValue(SimpleConfig.NonEmptyStringValue);
 
             Assert.AreEqual("abc", value);
         }
@@ -27,18 +29,17 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_value_is_empty_Then_value_should_be_returned()
         {
-            var settings = new AppSettings(this.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
 
-            var value = settings.GetValue("EmptyStringValue");
+            var value = settings.GetValue(SimpleConfig.EmptyStringValue);
 
             Assert.AreEqual(string.Empty, value);
         }
 
-
         [Test]
         public void And_setting_does_not_exist_exception_is_thrown()
         {
-            var settings = new AppSettings(this.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
 
             Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
         }
