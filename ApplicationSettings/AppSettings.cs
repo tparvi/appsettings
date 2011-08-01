@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets absolute path to the configuration file.
         /// </summary>
-        public string FullPath
+        public virtual string FullPath
         {
             get
             {
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets a value indicating whether the configuration file exists.
         /// </summary>
-        public bool FileExists
+        public virtual bool FileExists
         {
             get
             {
@@ -63,19 +63,26 @@
         }
 
         /// <summary>
-        /// Gets Configuration.
+        /// Gets or sets Configuration.
         /// </summary>
-        protected Configuration Configuration { get; private set; }
+        protected Configuration Configuration { get; set; }
 
         private void ValidateFilePath(string fileName)
         {
+            string fullPath;
+
             try
             {
-                System.IO.Path.GetFullPath(fileName);
+                fullPath = System.IO.Path.GetFullPath(fileName);
             }
             catch (Exception exp)
             {
                 throw new AppSettingException("The path to configuration file is invalid", exp);
+            }
+
+            if (!System.IO.File.Exists(fullPath))
+            {
+                throw new AppSettingException("The file {0} does not exist".FormatWith(fullPath));
             }
         }
     }
