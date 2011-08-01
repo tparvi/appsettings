@@ -22,6 +22,7 @@ namespace ApplicationSettingsTests
             var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
 
             var value = settings.GetOptionalValue(SimpleConfig.NonEmptyStringValue, null);
+
             Assert.AreEqual("abc", value);
         }
 
@@ -32,6 +33,7 @@ namespace ApplicationSettingsTests
 
             var defaultValue = "default value";
             var value = settings.GetOptionalValue("NonExistingParameter", defaultValue);
+
             Assert.AreEqual(defaultValue, value);
         }
 
