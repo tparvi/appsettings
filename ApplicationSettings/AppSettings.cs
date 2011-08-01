@@ -78,7 +78,7 @@
         /// </returns>
         public string GetValue(string settingName)
         {
-            if (!this.HasSetting(settingName))
+            if (!this.HasAppSetting(settingName))
             {
                 throw new AppSettingException("The setting with name {0} does not exist in the configuration".FormatWith(settingName));
             }
@@ -86,9 +86,15 @@
             return this.GetAppSettingValue(settingName);
         }
 
+        /// <summary>
+        /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
+        /// </summary>
+        /// <param name="settingName">Name of the setting.</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns>Value of the setting or default value.</returns>
         public string GetOptionalValue(string settingName, string defaultValue)
         {
-            if (!this.HasSetting(settingName))
+            if (!this.HasAppSetting(settingName))
             {
                 return defaultValue;
             }
@@ -96,12 +102,22 @@
             return this.GetAppSettingValue(settingName);
         }
 
+        /// <summary>
+        /// Gets the value of the appsetting.
+        /// </summary>
+        /// <param name="settingName">Name of the setting.</param>
+        /// <returns>Value of the setting.</returns>
         protected string GetAppSettingValue(string settingName)
         {
             return this.Configuration.AppSettings.Settings[settingName].Value;
         }
 
-        protected bool HasSetting(string settingName)
+        /// <summary>
+        /// Checks if the setting exists.
+        /// </summary>
+        /// <param name="settingName">Name of the setting</param>
+        /// <returns>True if setting exists.</returns>
+        protected bool HasAppSetting(string settingName)
         {
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
         }

@@ -10,6 +10,7 @@
         public static readonly string SimpleConfigFile = "simple.config";
         public static readonly string NonEmptyStringValue = "NonEmptyStringValue";
         public static readonly string EmptyStringValue = "EmptyStringValue";
+        public static readonly string NullStringValue = "NullStringValue";
 
         public static string AbsolutePathToSimpleConfigFile
         {

@@ -27,6 +27,21 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
+        public void Then_if_value_is_null_empty_should_be_returned()
+        {
+            // The functionality is the same as using standard Configuration/ConfigurationManager.
+            // If the value="" part is missing then empty string is returned. It would make
+            // sense that it would return null but that is not the case
+
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+
+            var value = settings.GetValue(SimpleConfig.NullStringValue);
+
+            Assert.AreEqual(string.Empty, value);
+        }
+
+
+        [Test]
         public void And_value_is_empty_Then_value_should_be_returned()
         {
             var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);

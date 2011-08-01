@@ -1,10 +1,6 @@
 ﻿namespace ApplicationSettings
 {
-    using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Extension methods for strings.
