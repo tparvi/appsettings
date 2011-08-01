@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\SimpleConfig.cs" />
+    <Compile Include="When_Getting_Mandatory_Value.cs" />
     <Compile Include="TypeConverterTests.cs" />
     <Compile Include="When_Getting_Optional_String_Value.cs" />
     <Compile Include="When_Getting_Mandatory_String_Value.cs" />

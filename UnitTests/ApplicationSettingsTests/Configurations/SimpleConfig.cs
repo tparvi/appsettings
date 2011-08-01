@@ -12,6 +12,10 @@
         public static readonly string EmptyStringValue = "EmptyStringValue";
         public static readonly string NullStringValue = "NullStringValue";
 
+        public static readonly string IntValue = "IntValue";
+        public static readonly string DoubleValue = "DoubleValue";
+        public static readonly string DecimalValue = "DecimalValue";
+
         public static string AbsolutePathToSimpleConfigFile
         {
             get

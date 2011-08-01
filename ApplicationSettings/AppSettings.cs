@@ -87,6 +87,18 @@
         }
 
         /// <summary>
+        /// Gets mandatory configuration value.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="settingName">Name of the setting.</param>
+        /// <returns>Value of the setting</returns>
+        public T GetValue<T>(string settingName)
+        {
+            var value = this.GetValue(settingName);
+            return TypeConverter.Convert<T>(value);
+        }
+
+        /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
