@@ -78,12 +78,32 @@
         /// </returns>
         public string GetValue(string settingName)
         {
-            if (!this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName))
+            if (!this.HasSetting(settingName))
             {
                 throw new AppSettingException("The setting with name {0} does not exist in the configuration".FormatWith(settingName));
             }
 
+            return this.GetAppSettingValue(settingName);
+        }
+
+        public string GetOptionalValue(string settingName, string defaultValue)
+        {
+            if (!this.HasSetting(settingName))
+            {
+                return defaultValue;
+            }
+
+            return this.GetAppSettingValue(settingName);
+        }
+
+        protected string GetAppSettingValue(string settingName)
+        {
             return this.Configuration.AppSettings.Settings[settingName].Value;
+        }
+
+        protected bool HasSetting(string settingName)
+        {
+            return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
         }
 
         private void ValidateFilePath(string fileName)

@@ -43,5 +43,11 @@ namespace ApplicationSettingsTests
 
             Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
         }
+
+        [Test]
+        public void And_AppSetting_section_does_not_exist()
+        {
+            Assert.Inconclusive("Not implemented");
+        }
     }
 }

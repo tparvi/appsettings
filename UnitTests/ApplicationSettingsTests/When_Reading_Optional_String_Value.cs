@@ -19,9 +19,26 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_exists_then_its_value_is_returned()
         {
-            //var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
-            Assert.Inconclusive("Not implemented");
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+
+            var value = settings.GetOptionalValue(SimpleConfig.NonEmptyStringValue, null);
+            Assert.AreEqual("abc", value);
         }
 
+        [Test]
+        public void And_setting_does_not_exist_then_default_value_is_returned()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+
+            var defaultValue = "default value";
+            var value = settings.GetOptionalValue("NonExistingParameter", defaultValue);
+            Assert.AreEqual(defaultValue, value);
+        }
+
+        [Test]
+        public void And_AppSetting_section_does_not_exist()
+        {
+            Assert.Inconclusive("Not implemented");
+        }
     }
 }
