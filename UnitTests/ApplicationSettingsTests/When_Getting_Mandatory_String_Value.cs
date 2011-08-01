@@ -14,7 +14,7 @@ namespace ApplicationSettingsTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class When_Reading_Mandatory_String_Value : TestBase
+    public class When_Getting_Mandatory_String_Value : TestBase
     {
         [Test]
         public void Then_value_should_be_returned()
@@ -27,7 +27,7 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void Then_if_value_is_null_empty_should_be_returned()
+        public void And_value_is_null_Then_empty_value_should_be_returned()
         {
             // The functionality is the same as using standard Configuration/ConfigurationManager.
             // If the value="" part is missing then empty string is returned. It would make

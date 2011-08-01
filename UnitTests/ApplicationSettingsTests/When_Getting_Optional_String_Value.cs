@@ -14,7 +14,7 @@ namespace ApplicationSettingsTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class When_Reading_Optional_String_Value : TestBase
+    public class When_Getting_Optional_String_Value : TestBase
     {
         [Test]
         public void And_setting_exists_then_its_value_is_returned()
