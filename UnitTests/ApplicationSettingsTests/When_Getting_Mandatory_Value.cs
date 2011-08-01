@@ -53,5 +53,13 @@ namespace ApplicationSettingsTests
 
             Assert.Throws<AppSettingException>(() => settings.GetValue<int>("NonExistingSetting"));
         }
+
+        [Test]
+        public void And_value_cannot_be_converted_exception_is_thrown()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+
+            Assert.Throws<AppSettingException>(() => settings.GetValue<decimal>(SimpleConfig.NonEmptyStringValue));
+        }
     }
 }

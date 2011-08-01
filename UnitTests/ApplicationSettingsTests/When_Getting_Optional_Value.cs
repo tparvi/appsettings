@@ -44,5 +44,13 @@ namespace ApplicationSettingsTests
         {
             Assert.Inconclusive("Not implemented");
         }
+
+        [Test]
+        public void And_value_cannot_be_converted_exception_is_thrown()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+
+            Assert.Throws<AppSettingException>(() => settings.GetOptionalValue<decimal>(SimpleConfig.NonEmptyStringValue, 1.1m));
+        }
     }
 }
