@@ -95,7 +95,7 @@
         public T GetValue<T>(string settingName)
         {
             var value = this.GetValue(settingName);
-            return TypeConverter.Convert<T>(value);
+            return this.ConvertValue<T>(settingName, value);
         }
 
         /// <summary>
@@ -129,7 +129,28 @@
             }
 
             var value = this.GetAppSettingValue(settingName);
-            return TypeConverter.Convert<T>(value);
+            return this.ConvertValue<T>(settingName, value);
+        }
+
+        /// <summary>
+        /// Converts the value to specific type.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="settingName">Name of the setting</param>
+        /// <param name="value">Value to be converted</param>
+        /// <returns>Converted value</returns>
+        protected virtual T ConvertValue<T>(string settingName, string value)
+        {
+            try
+            {
+                return TypeConverter.Convert<T>(value);
+            }
+            catch (Exception exp)
+            {
+                var msg = "Failed to convert setting {0} (value: {1}) into {2}."
+                    .FormatWith(settingName, value, typeof(T).FullName);
+                throw new AppSettingException(msg, exp);
+            }            
         }
 
         /// <summary>
@@ -137,7 +158,7 @@
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
         /// <returns>Value of the setting.</returns>
-        protected string GetAppSettingValue(string settingName)
+        protected virtual string GetAppSettingValue(string settingName)
         {
             return this.Configuration.AppSettings.Settings[settingName].Value;
         }
@@ -147,7 +168,7 @@
         /// </summary>
         /// <param name="settingName">Name of the setting</param>
         /// <returns>True if setting exists.</returns>
-        protected bool HasAppSetting(string settingName)
+        protected virtual bool HasAppSetting(string settingName)
         {
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
         }
