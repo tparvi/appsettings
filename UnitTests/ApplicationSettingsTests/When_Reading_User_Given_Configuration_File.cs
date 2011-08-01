@@ -12,21 +12,17 @@ namespace ApplicationSettingsTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class When_AppSettings_is_created : TestBase
+    public class When_Reading_User_Given_Configuration_File : TestBase
     {
         [Test]
-        public void Then_it_should_read_configuration_file_given_to_it()
+        public void Then_reading_absolute_path_should_succeed()
         {
             var fileName = TestHelpers.GetFullPathToConfigurationFile(SimpleConfigFile);
+            
             var settings = new AppSettings(fileName);
+
             Assert.AreEqual(fileName, settings.FullPath);
             Assert.IsTrue(settings.FileExists);            
-        }
-
-        [Test]
-        public void Then_if_filepath_is_uri_exception_is_thrown()
-        {
-            Assert.Throws<AppSettingException>(() => { new AppSettings(@"file:////foo.txt"); });
         }
 
         [Test]
@@ -42,14 +38,18 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void With_non_existing_file_should_succeed()
+        public void Then_if_filepath_is_uri_exception_is_thrown()
+        {
+            Assert.Throws<AppSettingException>(() => { new AppSettings(@"file:////foo.txt"); });
+        }
+
+
+        [Test]
+        public void And_file_does_not_exist_then_exception_should_be_thrown()
         {
             var fileName = TestHelpers.GetFullPathToConfigurationFile(NonExistingConfigFile);
-            
-            var settings = new AppSettings(fileName);
-            
-            Assert.AreEqual(fileName, settings.FullPath);
-            Assert.IsFalse(settings.FileExists);                        
+
+            Assert.Throws<AppSettingException>(() => { new AppSettings(fileName); });
         }
     }
 }

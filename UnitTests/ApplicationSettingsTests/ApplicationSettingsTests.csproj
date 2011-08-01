@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="TestBase.cs" />
     <Compile Include="TestHelpers.cs" />
-    <Compile Include="When_AppSettings_is_created.cs" />
+    <Compile Include="When_Reading_User_Given_Configuration_File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
