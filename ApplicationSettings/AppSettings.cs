@@ -115,6 +115,24 @@
         }
 
         /// <summary>
+        /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="settingName">Name of the setting</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns>Value of the setting or default value</returns>
+        public T GetOptionalValue<T>(string settingName, T defaultValue)
+        {
+            if (!this.HasAppSetting(settingName))
+            {
+                return defaultValue;
+            }
+
+            var value = this.GetAppSettingValue(settingName);
+            return TypeConverter.Convert<T>(value);
+        }
+
+        /// <summary>
         /// Gets the value of the appsetting.
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
