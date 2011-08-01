@@ -67,6 +67,25 @@
         /// </summary>
         protected Configuration Configuration { get; set; }
 
+        /// <summary>
+        /// Gets mandatory configuration value.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <returns>
+        /// Value of the setting.
+        /// </returns>
+        public string GetValue(string settingName)
+        {
+            if (!this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName))
+            {
+                throw new AppSettingException("The setting with name {0} does not exist in the configuration".FormatWith(settingName));
+            }
+
+            return this.Configuration.AppSettings.Settings[settingName].Value;
+        }
+
         private void ValidateFilePath(string fileName)
         {
             string fullPath;

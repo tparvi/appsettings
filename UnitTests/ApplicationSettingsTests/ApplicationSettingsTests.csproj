@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="When_Reading_Mandatory_String_Value.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="When_Reading_User_Given_Configuration_File.cs" />
