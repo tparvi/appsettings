@@ -6,26 +6,29 @@ The library does not expose 100% of the functionality provided by the wrapped co
 
 ##Status
 
-**The library is currently under development thus there are no releases**. The first release will support reading of values from .config file. Support for Web.Config is also in the roadmap but the web specific implementations and use cases have not been thought yet (e.g. support for reloading when web.config file changes).
+**The library is currently under development thus there are no binary releases**. 
+
+Following features have been implemented as of 1st of August 2011.
+
++ reading .config file by giving relative or absolute path to it
++ reading standard .net types, enums and nullables type safely
++ support for reading optional parameters
 
 ##Roadmap
 
-###Priority features
+The first release is still missing following features:
 
-+ reading .config file by giving relative or absolute path to it
-+ reading standard app.config file without need to give path to it
-+ reading standard .net types type safely
-+ reading connection string
-+ support for enum types
-+ support for Nullable types
++ support for custom conversion functions
++ support for custom CultureInfo (currently everything is read using InvariantCulture)
++ reading connection strings
++ easy way to read config file from specific location (i.e. location of executing assembly, entry assembly)
++ interface for AppSettings
++ example project
++ wiki updates
 
 ###Other things on the todo list
 
-+ support for custom conversion routines
-+ web.config support
-
-###Nice to have features
-
++ web.config support (if it requires specific support)
 + reading complete sections into type safe objects
 + support for write (save, update, replace etc.) methods
 
