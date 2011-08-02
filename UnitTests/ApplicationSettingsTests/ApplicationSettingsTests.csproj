@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\EmptyConnectionStrings.cs" />
+    <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
+    <Compile Include="When_Getting_ConnectionString.cs" />
     <Compile Include="When_Getting_Optional_Value.cs" />
     <Compile Include="When_Getting_Mandatory_Value.cs" />
     <Compile Include="TypeConverterTests.cs" />
@@ -61,6 +64,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Configurations\EmptyConnectionStrings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\MultipleConnectionStrings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Configurations\simple.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

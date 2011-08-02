@@ -63,6 +63,19 @@
         }
 
         /// <summary>
+        /// Gets the only ConnectionString from the configuration. If there are
+        /// multiple connection strings or none then exception is thrown.
+        /// </summary>
+        public virtual string ConnectionString
+        {
+            get
+            {
+                this.ValidateThatOnlySingleConnectionStringExists();
+                return this.Configuration.ConnectionStrings.ConnectionStrings[0].ConnectionString;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets Configuration.
         /// </summary>
         protected Configuration Configuration { get; set; }
@@ -171,6 +184,39 @@
         protected virtual bool HasAppSetting(string settingName)
         {
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
+        }
+
+        /// <summary>
+        /// Validates the there is only single connection string.
+        /// </summary>
+        /// <exception cref="AppSettingException">
+        /// If there are no connection strings or multiple connection strings.
+        /// </exception>
+        protected virtual void ValidateThatOnlySingleConnectionStringExists()
+        {
+            if (this.Configuration.ConnectionStrings.ConnectionStrings.Count > 1)
+            {
+                var msg = "Cannot return connection strings because there are multiple connection strings." + Environment.NewLine;
+                msg += "Found following connection strings from the configuration:" + Environment.NewLine;
+
+                foreach (var cs in this.Configuration.ConnectionStrings.ConnectionStrings)
+                {
+                    msg += cs + Environment.NewLine;
+                }
+
+                msg += "If your app.config contains only single connection string make sure you add <clear/>" + Environment.NewLine;
+                msg += "right below <connectionStrings> to remove machine level connection strings which are automatically" + Environment.NewLine;
+                msg += "added to your configuration from machine.config.";
+
+                throw new AppSettingException(msg);
+            }
+
+            if (1 != this.Configuration.ConnectionStrings.ConnectionStrings.Count)
+            {
+                var msg = "There should be single connection string but the are actually {0} connection strings."
+                    .FormatWith(this.Configuration.ConnectionStrings.ConnectionStrings.Count);
+                throw new AppSettingException(msg);
+            }
         }
 
         private void ValidateFilePath(string fileName)
