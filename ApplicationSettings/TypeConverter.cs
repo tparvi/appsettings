@@ -30,14 +30,9 @@
                     return (T)(object)null;
                 }
 
-                var underlyingType = Nullable.GetUnderlyingType(type);
-
-                if (underlyingType.IsEnum)
-                {
-                    return ConvertEnum<T>(underlyingType, value);
-                }
-
-                return (T)System.Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
+                // Type is nullable and we have value is not empty.
+                // Get the underlying type and continue the conversion.
+                type = Nullable.GetUnderlyingType(type);
             }
 
             if (type.IsEnum)
@@ -45,7 +40,7 @@
                 return ConvertEnum<T>(type, value);
             }
 
-            return (T)System.Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+            return (T)System.Convert.ChangeType(value, type, CultureInfo.InvariantCulture);
         }
 
         private static T ConvertEnum<T>(Type type, string value)
