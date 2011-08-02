@@ -18,6 +18,8 @@
 
         public static readonly string ConnectionString = "Data Source=localhost;Initial Catalog=MyDb;User Id=username;Password=password;";
 
+        public static readonly string ConnectionStringName = "MyDatabase";
+
         public static string AbsolutePathToSimpleConfigFile
         {
             get

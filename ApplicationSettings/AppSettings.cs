@@ -146,6 +146,26 @@
         }
 
         /// <summary>
+        /// Gets the connection string.
+        /// </summary>
+        /// <param name="connectionStringName">
+        /// The connection string name.
+        /// </param>
+        /// <returns>
+        /// The connection string.
+        /// </returns>
+        public string GetConnectionString(string connectionStringName)
+        {
+            var connectionString = this.Configuration.ConnectionStrings.ConnectionStrings[connectionStringName];
+            if (null != connectionString)
+            {
+                return connectionString.ConnectionString;
+            }
+            
+            throw new AppSettingException("There is no connection string by the name {0}".FormatWith(connectionStringName));
+        }
+
+        /// <summary>
         /// Converts the value to specific type.
         /// </summary>
         /// <typeparam name="T">Type of the value</typeparam>

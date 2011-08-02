@@ -46,6 +46,7 @@
     <Compile Include="Configurations\EmptyConnectionStrings.cs" />
     <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
+    <Compile Include="When_Getting_ConnectionString_By_Name.cs" />
     <Compile Include="When_Getting_ConnectionString.cs" />
     <Compile Include="When_Getting_Optional_Value.cs" />
     <Compile Include="When_Getting_Mandatory_Value.cs" />
