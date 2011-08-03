@@ -70,8 +70,7 @@
         {
             get
             {
-                this.ValidateThatOnlySingleConnectionStringExists();
-                return this.Configuration.ConnectionStrings.ConnectionStrings[0].ConnectionString;
+                return this.GetOnlyExistingConnectionString();
             }
         }
 
@@ -207,13 +206,27 @@
         /// </returns>
         public string GetConnectionString(string connectionStringName)
         {
-            var connectionString = this.Configuration.ConnectionStrings.ConnectionStrings[connectionStringName];
+            var connectionString = this.GetConnectionStringByName(connectionStringName);
             if (null != connectionString)
             {
                 return connectionString.ConnectionString;
             }
             
             throw new AppSettingException("There is no connection string by the name {0}".FormatWith(connectionStringName));
+        }
+
+        /// <summary>
+        /// Gets the connection string from configuration.
+        /// </summary>
+        /// <param name="connectionStringName">
+        /// The connection string name.
+        /// </param>
+        /// <returns>
+        /// Connection string or null.
+        /// </returns>
+        protected ConnectionStringSettings GetConnectionStringByName(string connectionStringName)
+        {
+            return this.Configuration.ConnectionStrings.ConnectionStrings[connectionStringName];
         }
 
         /// <summary>
@@ -248,13 +261,25 @@
         }
 
         /// <summary>
-        /// Checks if the setting exists.
+        /// Checks if the app setting exists.
         /// </summary>
         /// <param name="settingName">Name of the setting</param>
         /// <returns>True if setting exists.</returns>
         protected virtual bool HasAppSetting(string settingName)
         {
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
+        }
+
+        /// <summary>
+        /// Checsk that there is only single connection string and returns it.
+        /// </summary>
+        /// <returns>
+        /// The only connection string that has been configured.
+        /// </returns>
+        protected virtual string GetOnlyExistingConnectionString()
+        {
+            this.ValidateThatOnlySingleConnectionStringExists();
+            return this.Configuration.ConnectionStrings.ConnectionStrings[0].ConnectionString;            
         }
 
         /// <summary>
