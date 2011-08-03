@@ -27,7 +27,7 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void And_connection_string_does_not_exist_exception_is_thrown()
+        public void And_connection_string_does_not_exist_Then_exception_is_thrown()
         {
             var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
 
