@@ -40,6 +40,28 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
+        public void And_custom_conversion_function_is_specified_it_should_be_used()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var functionCalled = false;
+
+            settings.GetOptionalValue<int>(SimpleConfig.IntValue, 100, (setting, settingValue) => { functionCalled = true; return 0; });
+
+            Assert.IsTrue(functionCalled);
+        }
+
+        [Test]
+        public void And_custom_conversion_function_is_specified_its_value_should_be_returned()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var expectedValue = 100;
+
+            var value = settings.GetOptionalValue<int>(SimpleConfig.IntValue, expectedValue, (setting, settingValue) => expectedValue);
+
+            Assert.AreEqual(expectedValue, value);
+        }
+
+        [Test]
         public void And_AppSetting_section_does_not_exist()
         {
             Assert.Inconclusive("Not implemented");

@@ -112,6 +112,27 @@
         }
 
         /// <summary>
+        /// Gets mandatory configuration value.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="conversionFunc">
+        /// The conversion function used to convert the value.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the value.
+        /// </typeparam>
+        /// <returns>
+        /// Value of the setting.
+        /// </returns>
+        public T GetValue<T>(string settingName, Func<string, string, T> conversionFunc)
+        {
+            var value = this.GetValue(settingName);
+            return conversionFunc(settingName, value);
+        }
+
+        /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
@@ -143,6 +164,36 @@
 
             var value = this.GetAppSettingValue(settingName);
             return this.ConvertValue<T>(settingName, value);
+        }
+
+        /// <summary>
+        /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
+        /// If setting exists <paramref name="conversionFunc"/> is used to convert the value.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="defaultValue">
+        /// The default value.
+        /// </param>
+        /// <param name="conversionFunc">
+        /// The conversion functio.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the value.
+        /// </typeparam>
+        /// <returns>
+        /// Default value or value returned by the <paramref name="conversionFunc"/>.
+        /// </returns>
+        public T GetOptionalValue<T>(string settingName, T defaultValue, Func<string, string, T> conversionFunc)
+        {
+            if (!this.HasAppSetting(settingName))
+            {
+                return defaultValue;
+            }
+
+            var value = this.GetAppSettingValue(settingName);
+            return conversionFunc(settingName, value);            
         }
 
         /// <summary>
