@@ -47,6 +47,7 @@
     <Compile Include="Configurations\EmptyConnectionStrings.cs" />
     <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
+    <Compile Include="When_Reading_Default_Configuration_File.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Enum.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Basic_Type.cs" />
     <Compile Include="When_Getting_ConnectionString_By_Name.cs" />
@@ -68,6 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Configurations\NoAppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
