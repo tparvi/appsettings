@@ -52,11 +52,5 @@ namespace ApplicationSettingsTests
 
             Assert.Throws<AppSettingException>(() => { new AppSettings(fileName); });
         }
-
-        [Test]
-        public void And_AppSetting_section_does_not_exist()
-        {
-            Assert.Inconclusive("Not implemented");
-        }
     }
 }

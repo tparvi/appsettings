@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\NoAppSettingsConfig.cs" />
     <Compile Include="Configurations\EmptyConnectionStrings.cs" />
     <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
@@ -67,6 +68,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Configurations\NoAppSettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Configurations\EmptyConnectionStrings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

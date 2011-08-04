@@ -74,11 +74,16 @@ namespace ApplicationSettingsTests
             Assert.AreEqual(expectedValue, value);
         }
 
-
         [Test]
-        public void And_AppSetting_section_does_not_exist()
+        public void And_AppSetting_section_does_not_exist_default_value_is_returned()
         {
-            Assert.Inconclusive("Not implemented");
+            var settings = new AppSettings(NoAppSettingsConfig.AbsolutePathToConfigFile);
+
+            var defaultValue = 100;
+            var value = settings.GetOptionalValue<int>("NonExistingSetting", defaultValue);
+
+            Assert.AreEqual(defaultValue, value);
+
         }
 
         [Test]

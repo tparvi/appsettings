@@ -60,9 +60,11 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void And_AppSetting_section_does_not_exist()
+        public void And_AppSetting_section_does_not_exist_exception_is_thrown()
         {
-            Assert.Inconclusive("Not implemented");
+            var settings = new AppSettings(NoAppSettingsConfig.AbsolutePathToConfigFile);
+
+            Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
         }
     }
 }

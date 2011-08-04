@@ -38,9 +38,14 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void And_AppSetting_section_does_not_exist()
+        public void And_AppSetting_section_does_not_exist_default_value_is_returned()
         {
-            Assert.Inconclusive("Not implemented");
+            var settings = new AppSettings(NoAppSettingsConfig.AbsolutePathToConfigFile);
+
+            var defaultValue = "default value";
+            var value = settings.GetOptionalValue("NonExistingParameter", defaultValue);
+
+            Assert.AreEqual(defaultValue, value);
         }
     }
 }
