@@ -19,7 +19,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_exists_then_its_value_is_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.GetOptionalValue(SimpleConfig.NonEmptyStringValue, null);
 
@@ -29,7 +29,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_does_not_exist_then_default_value_is_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var defaultValue = "default value";
             var value = settings.GetOptionalValue("NonExistingParameter", defaultValue);

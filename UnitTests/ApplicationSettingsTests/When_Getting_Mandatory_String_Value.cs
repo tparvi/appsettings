@@ -19,7 +19,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_value_should_be_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.GetValue(SimpleConfig.NonEmptyStringValue);
 
@@ -33,7 +33,7 @@ namespace ApplicationSettingsTests
             // If the value="" part is missing then empty string is returned. It would make
             // sense that it would return null but that is not the case
 
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.GetValue(SimpleConfig.NullStringValue);
 
@@ -44,7 +44,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_value_is_empty_Then_value_should_be_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.GetValue(SimpleConfig.EmptyStringValue);
 
@@ -54,7 +54,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_does_not_exist_exception_is_thrown()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
         }

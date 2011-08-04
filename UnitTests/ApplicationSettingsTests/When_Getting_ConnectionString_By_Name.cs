@@ -19,7 +19,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_connection_string_should_be_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.GetConnectionString(SimpleConfig.ConnectionStringName);
 
@@ -29,7 +29,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_connection_string_does_not_exist_Then_exception_is_thrown()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             Assert.Throws<AppSettingException>(() => settings.GetConnectionString("NonExistingConnectionString"));
         }

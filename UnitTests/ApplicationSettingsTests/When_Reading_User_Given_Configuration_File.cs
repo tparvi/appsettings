@@ -19,7 +19,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_reading_absolute_path_should_succeed()
         {
-            var fileName = SimpleConfig.AbsolutePathToSimpleConfigFile;
+            var fileName = SimpleConfig.AbsolutePathToConfigFile;
 
             var settings = new AppSettings(fileName);
 
@@ -31,10 +31,10 @@ namespace ApplicationSettingsTests
         public void Then_relative_path_should_be_converted_to_aboslute_path()
         {   
             // Using only file name so that the path is relative         
-            var settings = new AppSettings(TestHelpers.GetRelativePathToConfigurationFile(SimpleConfig.SimpleConfigFile));
+            var settings = new AppSettings(TestHelpers.GetRelativePathToConfigurationFile(SimpleConfig.ConfigFile));
 
             // This is the absolute path to the file
-            Assert.AreEqual(SimpleConfig.AbsolutePathToSimpleConfigFile, settings.FullPath);
+            Assert.AreEqual(SimpleConfig.AbsolutePathToConfigFile, settings.FullPath);
             Assert.IsTrue(settings.FileExists);                        
         }
 

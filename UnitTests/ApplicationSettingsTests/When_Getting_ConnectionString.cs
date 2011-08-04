@@ -19,7 +19,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void Then_connection_string_should_be_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var value = settings.ConnectionString;
 

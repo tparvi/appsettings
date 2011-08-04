@@ -20,7 +20,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_exists_then_its_value_is_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var anyDefaultValue = 100;
             var value = settings.GetOptionalValue<int>(SimpleConfig.IntValue, anyDefaultValue);
@@ -31,7 +31,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_setting_does_not_exist_then_default_value_is_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             var defaultValue = 100;
             var value = settings.GetOptionalValue<int>("NonExistingSetting", defaultValue);
@@ -43,7 +43,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_custom_conversion_function_is_specified_it_should_be_used()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
             var functionCalled = false;
 
             settings.GetOptionalValue<int>(SimpleConfig.IntValue, 100, (setting, settingValue) => { functionCalled = true; return 0; });
@@ -54,7 +54,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_custom_conversion_function_is_specified_its_value_should_be_returned()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
             var expectedValue = 100;
 
             var value = settings.GetOptionalValue<int>(SimpleConfig.IntValue, expectedValue, (setting, settingValue) => expectedValue);
@@ -65,7 +65,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_CultureInfo_is_specified_it_should_be_used()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
             var expectedValue = 1.1;
             var anyDefaultValue = 0.0;
 
@@ -89,7 +89,7 @@ namespace ApplicationSettingsTests
         [Test]
         public void And_value_cannot_be_converted_exception_is_thrown()
         {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             Assert.Throws<AppSettingException>(() => settings.GetOptionalValue<decimal>(SimpleConfig.NonEmptyStringValue, 1.1m));
         }
