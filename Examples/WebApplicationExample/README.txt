@@ -1,0 +1,1 @@
+﻿The example is in Global.asax.cs file Application_Start method
