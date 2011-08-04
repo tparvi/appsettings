@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests.TypeConverterTests
 {
-    using System.Globalization;
-    using System.Reflection;
-
     using ApplicationSettings;
-
-    using ApplicationSettingsTests.Configurations;
 
     using NUnit.Framework;
 

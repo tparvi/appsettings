@@ -1,9 +1,5 @@
-﻿using System;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests.TypeConverterTests
 {
-    using System.Globalization;
-
     using ApplicationSettings;
 
     using NUnit.Framework;

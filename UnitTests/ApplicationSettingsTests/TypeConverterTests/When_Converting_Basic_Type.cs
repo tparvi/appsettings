@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests.TypeConverterTests
 {
+    using System;
     using System.Globalization;
 
     using ApplicationSettings;
