@@ -1,6 +1,6 @@
 ##Description
 
-Library (.NET 4.0, C#) for accessing .config files using generic type safe methods. For more information see [Wiki]https://github.com/tparvi/appsettings/wiki.
+Library (.NET 4.0, C#) for accessing .config files using generic type safe methods. For more information see [Wiki](https://github.com/tparvi/appsettings/wiki).
 
 The library does not expose 100% of the functionality provided by the wrapped  [Configuration](http://msdn.microsoft.com/en-us/library/system.configuration.configuration.aspx) class. It covers the most common use cases and provides extension points through protected methods.
 
