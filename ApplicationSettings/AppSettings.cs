@@ -251,6 +251,16 @@
         }
 
         /// <summary>
+        /// Checks if the app setting exists.
+        /// </summary>
+        /// <param name="settingName">Name of the setting</param>
+        /// <returns>True if setting exists.</returns>
+        public bool HasAppSetting(string settingName)
+        {
+            return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
+        }
+
+        /// <summary>
         /// Gets the connection string from configuration.
         /// </summary>
         /// <param name="connectionStringName">
@@ -259,7 +269,7 @@
         /// <returns>
         /// Connection string or null.
         /// </returns>
-        protected ConnectionStringSettings GetConnectionStringByName(string connectionStringName)
+        protected virtual ConnectionStringSettings GetConnectionStringByName(string connectionStringName)
         {
             return this.Configuration.ConnectionStrings.ConnectionStrings[connectionStringName];
         }
@@ -294,16 +304,6 @@
         protected virtual string GetAppSettingValue(string settingName)
         {
             return this.Configuration.AppSettings.Settings[settingName].Value;
-        }
-
-        /// <summary>
-        /// Checks if the app setting exists.
-        /// </summary>
-        /// <param name="settingName">Name of the setting</param>
-        /// <returns>True if setting exists.</returns>
-        protected virtual bool HasAppSetting(string settingName)
-        {
-            return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
         }
 
         /// <summary>
