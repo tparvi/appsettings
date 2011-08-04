@@ -22,6 +22,14 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AppSettings"/> class.
+        /// </summary>
+        public AppSettings()
+        {
+            this.Configuration = OpenConfigurationFile();
+        }
+
+        /// <summary>
         /// Gets absolute path to the configuration file.
         /// </summary>
         public virtual string FullPath
@@ -296,6 +304,19 @@
 
             var fileMap = new ExeConfigurationFileMap { ExeConfigFilename = fileName };
             return ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+        }
+
+        /// <summary>
+        /// Opens the configuration file for the executable.
+        /// </summary>
+        /// <returns>
+        /// Configuration object.
+        /// </returns>
+        protected static Configuration OpenConfigurationFile()
+        {
+            var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ValidateFilePath(configuration.FilePath);
+            return configuration;
         }
 
         /// <summary>
