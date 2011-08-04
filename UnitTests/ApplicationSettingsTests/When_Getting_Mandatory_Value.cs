@@ -38,16 +38,6 @@ namespace ApplicationSettingsTests
         }
 
         [Test]
-        public void And_value_is_decimal_Then_value_should_be_returned()
-        {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
-
-            var value = settings.GetValue<decimal>(SimpleConfig.DecimalValue);
-
-            Assert.AreEqual(1.1, value);
-        }
-
-        [Test]
         public void And_custom_conversion_function_is_specified_it_should_be_used()
         {
             var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
