@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ApplicationSettingsTests
 {
+    using System.Globalization;
     using System.Reflection;
 
     using ApplicationSettings;
@@ -64,6 +65,17 @@ namespace ApplicationSettingsTests
             var expectedValue = 100.123m;
 
             var value = settings.GetValue<decimal>(SimpleConfig.DecimalValue, (setting, settingValue) => expectedValue);
+
+            Assert.AreEqual(expectedValue, value);
+        }
+
+        [Test]
+        public void And_CultureInfo_is_specified_it_should_be_used()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var expectedValue = 1.1;
+
+            var value = settings.GetValue<double>(SimpleConfig.DoubleWithFinnishLocale, CultureInfo.GetCultureInfo("fi-FI"));
 
             Assert.AreEqual(expectedValue, value);
         }

@@ -15,6 +15,7 @@
         public static readonly string IntValue = "IntValue";
         public static readonly string DoubleValue = "DoubleValue";
         public static readonly string DecimalValue = "DecimalValue";
+        public static readonly string DoubleWithFinnishLocale = "DoubleWithFinnishLocale";
 
         public static readonly string ConnectionString = "Data Source=localhost;Initial Catalog=MyDb;User Id=username;Password=password;";
 

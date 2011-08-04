@@ -107,7 +107,7 @@
         public T GetValue<T>(string settingName)
         {
             var value = this.GetValue(settingName);
-            return this.ConvertValue<T>(settingName, value);
+            return this.ConvertValue<T>(settingName, value, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -130,6 +130,28 @@
             var value = this.GetValue(settingName);
             return conversionFunc(settingName, value);
         }
+
+        /// <summary>
+        /// Gets mandatory configuration value.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An object that supplies culture-specific formatting information.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the value.
+        /// </typeparam>
+        /// <returns>
+        /// Value of the setting.
+        /// </returns>
+        public T GetValue<T>(string settingName, IFormatProvider formatProvider)
+        {
+            var value = this.GetValue(settingName);
+            return this.ConvertValue<T>(settingName, value, formatProvider);
+        }
+
 
         /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
@@ -162,8 +184,38 @@
             }
 
             var value = this.GetAppSettingValue(settingName);
-            return this.ConvertValue<T>(settingName, value);
+            return this.ConvertValue<T>(settingName, value, CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="defaultValue">
+        /// The default value.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An object that supplies culture-specific formatting information.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the value.
+        /// </typeparam>
+        /// <returns>
+        /// Value of the setting or default value.
+        /// </returns>
+        public T GetOptionalValue<T>(string settingName, T defaultValue, IFormatProvider formatProvider)
+        {
+            if (!this.HasAppSetting(settingName))
+            {
+                return defaultValue;
+            }
+
+            var value = this.GetAppSettingValue(settingName);
+            return this.ConvertValue<T>(settingName, value, formatProvider);
+        }
+
 
         /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
@@ -235,12 +287,13 @@
         /// <typeparam name="T">Type of the value</typeparam>
         /// <param name="settingName">Name of the setting</param>
         /// <param name="value">Value to be converted</param>
+        /// <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
         /// <returns>Converted value</returns>
-        protected virtual T ConvertValue<T>(string settingName, string value)
+        protected virtual T ConvertValue<T>(string settingName, string value, IFormatProvider formatProvider)
         {
             try
             {
-                return TypeConverter.Convert<T>(value);
+                return TypeConverter.Convert<T>(value, formatProvider);
             }
             catch (Exception exp)
             {

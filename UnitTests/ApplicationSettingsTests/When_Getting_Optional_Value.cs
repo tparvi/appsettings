@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ApplicationSettingsTests
 {
+    using System.Globalization;
     using System.Reflection;
 
     using ApplicationSettings;
@@ -60,6 +61,19 @@ namespace ApplicationSettingsTests
 
             Assert.AreEqual(expectedValue, value);
         }
+
+        [Test]
+        public void And_CultureInfo_is_specified_it_should_be_used()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToSimpleConfigFile);
+            var expectedValue = 1.1;
+            var anyDefaultValue = 0.0;
+
+            var value = settings.GetOptionalValue<double>(SimpleConfig.DoubleWithFinnishLocale, anyDefaultValue, CultureInfo.GetCultureInfo("fi-FI"));
+
+            Assert.AreEqual(expectedValue, value);
+        }
+
 
         [Test]
         public void And_AppSetting_section_does_not_exist()
