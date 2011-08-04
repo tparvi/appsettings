@@ -14,15 +14,11 @@
         /// Initializes a new instance of the <see cref="AppSettings"/> class.
         /// </summary>
         /// <param name="fileName">
-        /// Absolute path to the configuraton file.
+        /// Absolute or relative path to the configuraton file.
         /// </param>
         public AppSettings(string fileName)
         {
-            this.ValidateFilePath(fileName);
-
-            var fileMap = new ExeConfigurationFileMap();
-            fileMap.ExeConfigFilename = fileName;
-            this.Configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+            this.Configuration = OpenConfigurationFile(fileName);
         }
 
         /// <summary>
@@ -261,6 +257,48 @@
         }
 
         /// <summary>
+        /// Validates the file path and that the file exists.
+        /// </summary>
+        /// <param name="fileName">
+        /// Relative or absolute path to file.
+        /// </param>
+        protected static void ValidateFilePath(string fileName)
+        {
+            string fullPath;
+
+            try
+            {
+                fullPath = System.IO.Path.GetFullPath(fileName);
+            }
+            catch (Exception exp)
+            {
+                throw new AppSettingException("The path to configuration file is invalid", exp);
+            }
+
+            if (!System.IO.File.Exists(fullPath))
+            {
+                throw new AppSettingException("The file {0} does not exist".FormatWith(fullPath));
+            }
+        }
+
+        /// <summary>
+        /// Opens the configuration file.
+        /// </summary>
+        /// <param name="fileName">
+        /// Absolute or relative path to existing file.
+        /// </param>
+        /// <returns>
+        /// Configuration object.
+        /// </returns>
+        protected static Configuration OpenConfigurationFile(string fileName)
+        {
+            ValidateFilePath(fileName);
+
+            var fileMap = new ExeConfigurationFileMap { ExeConfigFilename = fileName };
+            return ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+        }
+
+        /// <summary>
         /// Gets the connection string from configuration.
         /// </summary>
         /// <param name="connectionStringName">
@@ -348,25 +386,6 @@
                 var msg = "There should be single connection string but the are actually {0} connection strings."
                     .FormatWith(this.Configuration.ConnectionStrings.ConnectionStrings.Count);
                 throw new AppSettingException(msg);
-            }
-        }
-
-        private void ValidateFilePath(string fileName)
-        {
-            string fullPath;
-
-            try
-            {
-                fullPath = System.IO.Path.GetFullPath(fileName);
-            }
-            catch (Exception exp)
-            {
-                throw new AppSettingException("The path to configuration file is invalid", exp);
-            }
-
-            if (!System.IO.File.Exists(fullPath))
-            {
-                throw new AppSettingException("The file {0} does not exist".FormatWith(fullPath));
             }
         }
     }
