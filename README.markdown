@@ -4,6 +4,8 @@ Library (.NET 4.0, C#) for accessing .config files using generic type safe metho
 
 The library does not expose 100% of the functionality provided by the wrapped  [Configuration](http://msdn.microsoft.com/en-us/library/system.configuration.configuration.aspx) class. It covers the most common use cases and provides extension points through protected methods.
 
+Latest stable release is v1.0 which is available for [download](https://github.com/downloads/tparvi/appsettings/AppSettings_v1.0.zip)
+
 ##Currently implemented functionality (v1.0)
 
 + reading .config files by giving relative or absolute path to it
