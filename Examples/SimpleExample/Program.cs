@@ -25,7 +25,8 @@ namespace SimpleExample
             try
             {
                 // Open the default app.config file which in this case is SimpleExample.exe.config
-                // and it is located in the same folder as the SimpleExample.exe
+                // and it is located in the same folder as the SimpleExample.exe. If you are using
+                // AppSettings inside .dll the name of the .config file would be NameOfTheAssembly.dll.config
                 settings = new AppSettings();
 
                 ReadStringValues();
@@ -36,6 +37,7 @@ namespace SimpleExample
                 ReadOptionalValues();
                 ReadUsingCustomConversionFunction();
                 ReadConnectionString();
+                ReadingCustomConfigurationFile();
             }
             catch (Exception exp)
             {
@@ -131,6 +133,15 @@ namespace SimpleExample
 
             // Of course you can still access connection string by their name
             cs = settings.GetConnectionString("MyDatabase");
+        }
+
+        public static void ReadingCustomConfigurationFile()
+        {
+            // If your .config fle is named something else you can
+            // give relative or absolute path to that file
+            var custom = new AppSettings(@"Custom.config");
+
+            Console.WriteLine("Value is Custom.config is {0}", custom.GetValue("Custom"));
         }
     }
 }
