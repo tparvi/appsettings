@@ -152,7 +152,6 @@
             return this.ConvertValue<T>(settingName, value, formatProvider);
         }
 
-
         /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
         /// </summary>
@@ -215,7 +214,6 @@
             var value = this.GetAppSettingValue(settingName);
             return this.ConvertValue<T>(settingName, value, formatProvider);
         }
-
 
         /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
