@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests.CreationTests
 {
-    using System.Reflection;
-
     using ApplicationSettings;
 
     using ApplicationSettingsTests.Configurations;
@@ -14,7 +7,7 @@ namespace ApplicationSettingsTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class When_Reading_User_Given_Configuration_File : TestBase
+    public class When_using_file_name : TestBase
     {
         [Test]
         public void Then_reading_absolute_path_should_succeed()

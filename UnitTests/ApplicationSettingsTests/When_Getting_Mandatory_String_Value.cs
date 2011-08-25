@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests
 {
-    using System.Reflection;
-
     using ApplicationSettings;
 
     using ApplicationSettingsTests.Configurations;
@@ -63,6 +56,14 @@ namespace ApplicationSettingsTests
         public void And_AppSetting_section_does_not_exist_exception_is_thrown()
         {
             var settings = new AppSettings(NoAppSettingsConfig.AbsolutePathToConfigFile);
+
+            Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
+        }
+
+        [Test]
+        public void And_file_does_not_exist_Then_exception_is_thrown()
+        {
+            var settings = new AppSettings("NonExistingConfig.config", FileOption.None);
 
             Assert.Throws<AppSettingException>(() => settings.GetValue("NonExistingSetting"));
         }

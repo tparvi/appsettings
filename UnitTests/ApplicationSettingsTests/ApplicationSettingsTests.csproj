@@ -47,7 +47,9 @@
     <Compile Include="Configurations\EmptyConnectionStrings.cs" />
     <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
-    <Compile Include="When_Reading_Default_Configuration_File.cs" />
+    <Compile Include="CreationTests\When_using_filename_and_option.cs" />
+    <Compile Include="CreationTests\When_using_FileOption.cs" />
+    <Compile Include="CreationTests\When_using_file_name.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Enum.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Basic_Type.cs" />
     <Compile Include="When_Getting_ConnectionString_By_Name.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="When_Getting_Mandatory_String_Value.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestHelpers.cs" />
-    <Compile Include="When_Reading_User_Given_Configuration_File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

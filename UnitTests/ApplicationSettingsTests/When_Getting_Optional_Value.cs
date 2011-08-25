@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ApplicationSettingsTests
+﻿namespace ApplicationSettingsTests
 {
     using System.Globalization;
-    using System.Reflection;
 
     using ApplicationSettings;
 
@@ -83,7 +77,6 @@ namespace ApplicationSettingsTests
             var value = settings.GetOptionalValue<int>("NonExistingSetting", defaultValue);
 
             Assert.AreEqual(defaultValue, value);
-
         }
 
         [Test]
@@ -92,6 +85,17 @@ namespace ApplicationSettingsTests
             var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
 
             Assert.Throws<AppSettingException>(() => settings.GetOptionalValue<decimal>(SimpleConfig.NonEmptyStringValue, 1.1m));
+        }
+
+        [Test]
+        public void And_file_does_not_exist_default_value_is_returned()
+        {
+            var settings = new AppSettings("NonExistingSettingsFile.config", FileOption.None);
+
+            var defaultValue = 100;
+            var value = settings.GetOptionalValue<int>("NonExistingSetting", defaultValue);
+
+            Assert.AreEqual(defaultValue, value);
         }
     }
 }

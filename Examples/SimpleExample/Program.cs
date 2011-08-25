@@ -27,7 +27,7 @@ namespace SimpleExample
                 // Open the default app.config file which in this case is SimpleExample.exe.config
                 // and it is located in the same folder as the SimpleExample.exe. If you are using
                 // AppSettings inside .dll the name of the .config file would be NameOfTheAssembly.dll.config
-                settings = new AppSettings();
+                settings = new AppSettings(FileOption.FileMustExist);
 
                 ReadStringValues();
                 ReadStandardDataTypes();

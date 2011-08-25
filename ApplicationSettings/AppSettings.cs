@@ -6,6 +6,23 @@
     using System.Linq;
 
     /// <summary>
+    /// Option used when accessing the physical file.
+    /// </summary>
+    public enum FileOption
+    {
+        /// <summary>
+        /// None. The existance of the file is not confirmed
+        /// prior of using it.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The file must exist prior of using it.
+        /// </summary>
+        FileMustExist
+    }
+
+    /// <summary>
     /// Application settings.
     /// </summary>
     public class AppSettings
@@ -14,19 +31,46 @@
         /// Initializes a new instance of the <see cref="AppSettings"/> class.
         /// </summary>
         /// <param name="fileName">
-        /// Absolute or relative path to the configuraton file.
+        /// Absolute or relative path to the configuraton file. The file
+        /// must exist.
         /// </param>
         public AppSettings(string fileName)
         {
-            this.Configuration = OpenConfigurationFile(fileName);
+            this.Configuration = OpenConfigurationFile(fileName, FileOption.FileMustExist);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppSettings"/> class.
         /// </summary>
-        public AppSettings()
+        /// <param name="fileOption">
+        /// The file Option.
+        /// </param>
+        public AppSettings(FileOption fileOption)
         {
-            this.Configuration = OpenConfigurationFile();
+            this.Configuration = OpenConfigurationFile(fileOption);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppSettings"/> class.
+        /// </summary>
+        /// <param name="fileName">
+        /// Absolute or relative path to the configuraton file.
+        /// </param>
+        /// <param name="fileOption">
+        /// The file option.
+        /// </param>
+        public AppSettings(string fileName, FileOption fileOption)
+        {
+            this.Configuration = OpenConfigurationFile(fileName, fileOption);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppSettings"/> class.
+        /// </summary>
+        protected AppSettings()
+        {     
+            // This constructor is reserved for derived classes
+            // and static methods
         }
 
         /// <summary>
@@ -280,7 +324,7 @@
             }
             catch (Exception exp)
             {
-                throw new AppSettingException("The path to configuration file is invalid", exp);
+                throw new AppSettingException("The path to configuration file is invalid. See inner exception for details.", exp);
             }
 
             if (!System.IO.File.Exists(fullPath))
@@ -298,10 +342,13 @@
         /// <returns>
         /// Configuration object.
         /// </returns>
-        protected static Configuration OpenConfigurationFile(string fileName)
+        protected static Configuration OpenConfigurationFile(string fileName, FileOption fileOption)
         {
-            ValidateFilePath(fileName);
-
+            if (FileOption.FileMustExist == fileOption)
+            {
+                ValidateFilePath(fileName);    
+            }
+            
             var fileMap = new ExeConfigurationFileMap { ExeConfigFilename = fileName };
             return ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
         }
@@ -312,10 +359,15 @@
         /// <returns>
         /// Configuration object.
         /// </returns>
-        protected static Configuration OpenConfigurationFile()
+        protected static Configuration OpenConfigurationFile(FileOption fileOption)
         {
             var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            ValidateFilePath(configuration.FilePath);
+
+            if (FileOption.FileMustExist == fileOption)
+            {
+                ValidateFilePath(configuration.FilePath);    
+            }
+            
             return configuration;
         }
 
@@ -349,7 +401,7 @@
             }
             catch (Exception exp)
             {
-                var msg = "Failed to convert setting {0} (value: {1}) into {2}."
+                var msg = "Failed to convert setting {0} (value: {1}) into {2}. See inner exception for details."
                     .FormatWith(settingName, value, typeof(T).FullName);
                 throw new AppSettingException(msg, exp);
             }            
@@ -395,9 +447,9 @@
                     msg += cs + Environment.NewLine;
                 }
 
-                msg += "If your app.config contains only single connection string make sure you add <clear/>" + Environment.NewLine;
+                msg += "If your config contains only single connection string make sure you add <clear/>" + Environment.NewLine;
                 msg += "right below <connectionStrings> to remove machine level connection strings which are automatically" + Environment.NewLine;
-                msg += "added to your configuration from machine.config.";
+                msg += "added to your configuration from machine.config. See the app.config file in SimpleExample project for more info.";
 
                 throw new AppSettingException(msg);
             }
