@@ -186,6 +186,91 @@
         }
 
         /// <summary>
+        /// Sets the value for setting. If the setting exists then it's value
+        /// is replaced with <paramref name="value"/>. If the setting does not
+        /// exist then new setting is created usng <paramref name="settingName"/>
+        /// as key.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        public void SetValue(string settingName, string value)
+        {
+            this.UpdateValue(settingName, value);
+        }
+
+        /// <summary>
+        /// Sets the value for setting. If the setting exists then it's value
+        /// is replaced with <paramref name="value"/>. If the setting does not
+        /// exist then new setting is created usng <paramref name="settingName"/>
+        /// as key.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the setting.
+        /// </typeparam>
+        public void SetValue<T>(string settingName, T value)
+        {
+            this.UpdateValue(settingName, value.ToString());   
+        }
+
+        /// <summary>
+        /// Sets the value for setting. If the setting exists then it's value
+        /// is replaced with <paramref name="value"/>. If the setting does not
+        /// exist then new setting is created usng <paramref name="settingName"/>
+        /// as key.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="formatProvider">
+        /// The format provider.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the setting.
+        /// </typeparam>
+        public void SetValue<T>(string settingName, T value, IFormatProvider formatProvider)
+        {
+            var tempValue = Convert.ToString(value, formatProvider);
+            this.UpdateValue(settingName, tempValue);
+        }
+
+        /// <summary>
+        /// Sets the value for setting. If the setting exists then it's value
+        /// is replaced with <paramref name="value"/>. If the setting does not
+        /// exist then new setting is created usng <paramref name="settingName"/>
+        /// as key.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="conversionFunc">
+        /// The conversion function used to convert <paramref name="value"/> into string.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of the setting.
+        /// </typeparam>
+        public void SetValue<T>(string settingName, T value, Func<T, string, string> conversionFunc)
+        {
+            var tempValue = conversionFunc(value, settingName);
+            this.UpdateValue(settingName, tempValue);
+        }
+
+        /// <summary>
         /// Gets optional value. If the setting does not exist <paramref name="defaultValue"/> is returned.
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
@@ -339,6 +424,9 @@
         /// <param name="fileName">
         /// Absolute or relative path to existing file.
         /// </param>
+        /// <param name="fileOption">
+        /// The file Option.
+        /// </param>
         /// <returns>
         /// Configuration object.
         /// </returns>
@@ -356,6 +444,9 @@
         /// <summary>
         /// Opens the configuration file for the executable.
         /// </summary>
+        /// <param name="fileOption">
+        /// The file Option.
+        /// </param>
         /// <returns>
         /// Configuration object.
         /// </returns>
@@ -369,6 +460,29 @@
             }
             
             return configuration;
+        }
+
+        /// <summary>
+        /// Updates the setting with new value. If the setting does not exist
+        /// new setting is created.
+        /// </summary>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        protected virtual void UpdateValue(string settingName, string value)
+        {
+            var element = this.Configuration.AppSettings.Settings[settingName];
+            if (null != element)
+            {
+                element.Value = value;
+            }
+            else
+            {
+                this.Configuration.AppSettings.Settings.Add(settingName, value);
+            }
         }
 
         /// <summary>
