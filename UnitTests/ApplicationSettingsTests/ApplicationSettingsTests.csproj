@@ -53,6 +53,7 @@
     <Compile Include="SaveTests\When_saving_settings.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Enum.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Basic_Type.cs" />
+    <Compile Include="UpdateTests\When_updating_ConnectionString.cs" />
     <Compile Include="UpdateTests\When_updating_generic_value.cs" />
     <Compile Include="UpdateTests\When_updating_string_value.cs" />
     <Compile Include="UseCaseTests\Read_settings_modify_save_and_read_again.cs" />

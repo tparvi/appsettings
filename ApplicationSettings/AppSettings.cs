@@ -384,6 +384,31 @@
         }
 
         /// <summary>
+        /// Sets the value for connection string. If it exists then it's value
+        /// is replaced with <paramref name="value"/>. If the connection string does not
+        /// exist then new setting is created usng <paramref name="connectionStringName"/>
+        /// as key.
+        /// </summary>
+        /// <param name="connectionStringName">
+        /// The connection strng name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        public void SetConnectionString(string connectionStringName, string value)
+        {
+            var connectionString = this.GetConnectionStringByName(connectionStringName);
+            if (null == connectionString)
+            {
+                this.Configuration.ConnectionStrings.ConnectionStrings.Add(new ConnectionStringSettings(connectionStringName, value));
+            }
+            else
+            {
+                connectionString.ConnectionString = value;
+            }
+        }
+
+        /// <summary>
         /// Checks if the app setting exists.
         /// </summary>
         /// <param name="settingName">Name of the setting</param>
