@@ -403,7 +403,7 @@
         /// <param name="value">
         /// The value.
         /// </param>
-        public void SetConnectionString(string connectionStringName, string value)
+        public virtual void SetConnectionString(string connectionStringName, string value)
         {
             var connectionString = this.GetConnectionStringByName(connectionStringName);
             if (null == connectionString)
