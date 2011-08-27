@@ -113,6 +113,14 @@
         protected Configuration Configuration { get; set; }
 
         /// <summary>
+        /// Saves the settings into physical file.
+        /// </summary>
+        public virtual void Save()
+        {
+            this.Configuration.Save();
+        }
+
+        /// <summary>
         /// Gets mandatory configuration value.
         /// </summary>
         /// <param name="settingName">

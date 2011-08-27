@@ -13,6 +13,7 @@
         public static readonly string NullStringValue = "NullStringValue";
 
         public static readonly string IntValue = "IntValue";
+        public static readonly string EmptyIntValue = "EmptyIntValue";
         public static readonly string DoubleValue = "DoubleValue";
         public static readonly string DecimalValue = "DecimalValue";
         public static readonly string DoubleWithFinnishLocale = "DoubleWithFinnishLocale";

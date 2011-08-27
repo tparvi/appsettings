@@ -61,7 +61,7 @@ namespace ExtensibilityExample
             this.Configuration.AppSettings.Settings.Add(settingName, value);
         }
 
-        public void Save()
+        public override void Save()
         {
             this.Configuration.Save();
         }
