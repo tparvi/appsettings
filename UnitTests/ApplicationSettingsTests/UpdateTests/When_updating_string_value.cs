@@ -8,11 +8,10 @@
     public class When_updating_string_value : TestBase
     {
         [Test]
-        public void And_setting_exist_Then_existing_setting_should_be_replaced()
+        public void And_setting_exists_Then_existing_setting_should_be_replaced()
         {
             var settings = new AppSettings("NonExistingFile", FileOption.None);
             var settingName = "setting";
-
 
             // Original value
             settings.SetValue(settingName, "a");
@@ -20,6 +19,7 @@
 
             // Save with different value
             settings.SetValue(settingName, "b");
+
             Assert.AreEqual("b", settings.GetValue(settingName));            
         }
 

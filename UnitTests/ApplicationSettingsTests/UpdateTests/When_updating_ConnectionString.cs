@@ -8,7 +8,7 @@
     public class When_updating_ConnectionString : TestBase
     {
         [Test]
-        public void And_connection_string_exist_Then_existing_connection_string_should_be_replaced()
+        public void And_connection_string_exists_Then_existing_connection_string_should_be_replaced()
         {
             var settings = new AppSettings("NonExistingFile", FileOption.None);
 

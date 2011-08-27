@@ -10,7 +10,7 @@
     public class When_updating_generic_value : TestBase
     {
         [Test]
-        public void And_setting_exist_Then_existing_setting_should_be_replaced()
+        public void And_setting_exists_Then_existing_setting_should_be_replaced()
         {
             var settings = new AppSettings("NonExistingFile", FileOption.None);
             var settingName = "setting";
@@ -21,6 +21,7 @@
 
             // Save with different value
             settings.SetValue<int>(settingName, 2);
+
             Assert.AreEqual(2, settings.GetValue<int>(settingName));            
         }
 
