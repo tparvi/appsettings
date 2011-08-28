@@ -547,7 +547,7 @@
         /// </returns>
         protected virtual string GetSettingsValueForProperty(PropertyInfo propertyInfo, string settingName)
         {
-            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
             if (null != attribute && attribute.IsOptional)
             {
                 return this.GetOptionalValue(settingName, attribute.DefaultValue);                
@@ -574,7 +574,7 @@
             }
 
             // If the property is ignored then we don't write into it.
-            var ignoredAttribute = Attribute.GetCustomAttribute(propertyInfo, typeof(IgnoreProperty));
+            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnoreProperty>();
             if (null != ignoredAttribute)
             {
                 return false;
@@ -596,7 +596,7 @@
         /// </returns>
         protected IFormatProvider GetFormatProvider(PropertyInfo propertyInfo)
         {
-            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
             if (null != attribute && null != attribute.CultureName)
             {
                 return CultureInfo.GetCultureInfo(attribute.CultureName);
@@ -618,7 +618,7 @@
         /// </returns>
         protected virtual string GetSettingName(PropertyInfo propertyInfo)
         {
-            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
             if (null != attribute && null != attribute.SettingName)
             {
                 return attribute.SettingName;
