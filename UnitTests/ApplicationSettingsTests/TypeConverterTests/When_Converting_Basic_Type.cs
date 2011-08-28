@@ -4,6 +4,7 @@
     using System.Globalization;
 
     using ApplicationSettings;
+    using ApplicationSettings.Internal;
 
     using NUnit.Framework;
 

@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using ApplicationSettings.Internal;
+
     /// <summary>
     /// Option used when accessing the physical file.
     /// </summary>

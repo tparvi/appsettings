@@ -1,4 +1,4 @@
-﻿namespace ApplicationSettings
+﻿namespace ApplicationSettings.Internal
 {
     using System;
     using System.Globalization;

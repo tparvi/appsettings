@@ -1,11 +1,11 @@
-﻿namespace ApplicationSettings
+﻿namespace ApplicationSettings.Internal
 {
     using System.Globalization;
 
     /// <summary>
-    /// Extension methods for strings.
+    /// Extension methods.
     /// </summary>
-    internal static class StringExtensions
+    internal static class Extensions
     {
         /// <summary>
         /// Formats the string.

@@ -1,6 +1,7 @@
 ﻿namespace ApplicationSettingsTests.TypeConverterTests
 {
     using ApplicationSettings;
+    using ApplicationSettings.Internal;
 
     using NUnit.Framework;
 
