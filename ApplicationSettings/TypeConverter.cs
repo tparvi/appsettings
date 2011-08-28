@@ -29,13 +29,24 @@
         public static T Convert<T>(string value, IFormatProvider formatProvider)
         {
             var type = typeof(T);
+            return (T)Convert(type, value, formatProvider);
+        }
 
+        /// <summary>
+        /// Converts string to specific type.
+        /// </summary>
+        /// <param name="type">Type to convert to.</param>
+        /// <param name="value">Value to be converted</param>
+        /// <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>Converted value.</returns>
+        public static object Convert(Type type, string value, IFormatProvider formatProvider)
+        {
             // In case the type is e.g. Nullable<int>
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 if (string.Empty == value)
                 {
-                    return (T)(object)null;
+                    return (object)null;
                 }
 
                 // Type is nullable and we have value is not empty.
@@ -45,15 +56,15 @@
 
             if (type.IsEnum)
             {
-                return ConvertEnum<T>(type, value);
+                return ConvertEnum(type, value);
             }
 
-            return (T)System.Convert.ChangeType(value, type, formatProvider);
+            return System.Convert.ChangeType(value, type, formatProvider);            
         }
 
-        private static T ConvertEnum<T>(Type type, string value)
+        private static object ConvertEnum(Type type, string value)
         {
-            return (T)Enum.Parse(type, value, true);
+            return Enum.Parse(type, value, true);
         }
     }
 }

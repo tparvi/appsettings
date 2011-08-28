@@ -4,6 +4,8 @@
 
     using ApplicationSettings;
 
+    using ApplicationSettingsTests.Configurations;
+
     using NUnit.Framework;
 
     [TestFixture]
@@ -34,6 +36,30 @@
             {
                 TestHelpers.DeleteIfExists(fullPathToConfigurationFile);
             }
+        }
+
+        [Test]
+        public void Then_values_should_be_saved_using_invariant_culture()
+        {
+            var originalFile = SimpleConfig.AbsolutePathToConfigFile;
+            var tempFile = TestHelpers.CreateCopyOfFile(originalFile);
+
+            try
+            {
+                var settings = new AppSettings(tempFile, FileOption.FileMustExist);
+                settings.SetValue<double>("OtherDouble", 1.1);
+
+                settings.Save();
+
+                var otherSettings = new AppSettings(tempFile, FileOption.FileMustExist);
+                var value = otherSettings.GetValue<double>("OtherDouble");
+
+                Assert.AreEqual(1.1d, value);
+            }
+            finally
+            {
+                TestHelpers.DeleteIfExists(tempFile);
+            }            
         }
     }
 }

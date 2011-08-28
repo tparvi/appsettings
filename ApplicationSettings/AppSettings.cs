@@ -227,7 +227,7 @@
         /// </typeparam>
         public void SetValue<T>(string settingName, T value)
         {
-            this.UpdateValue(settingName, value.ToString());   
+            this.SetValue<T>(settingName, value, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -417,6 +417,37 @@
         }
 
         /// <summary>
+        /// Writes configuration setting values into public properties of
+        /// <paramref name="instance"/> object. Properties can have private
+        /// or protected setters.
+        /// </summary>
+        /// <param name="instance">
+        /// The instance.
+        /// </param>
+        public virtual void WriteInto(object instance)
+        {
+            if (null == instance)
+            {
+                throw new ArgumentNullException("instance", "Cannot write configuration values into null object");
+            }
+
+            var properties = instance.GetType().GetProperties();
+
+            foreach (var propertyInfo in properties)
+            {
+                if (propertyInfo.CanWrite && this.HasAppSetting(propertyInfo.Name))
+                {
+                    var type = propertyInfo.PropertyType;
+                    var rawValue = this.GetValue(propertyInfo.Name);
+
+                    var value = this.ConvertValue(type, propertyInfo.Name, rawValue, CultureInfo.InvariantCulture);
+
+                    propertyInfo.SetValue(instance, value, null);
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks if the app setting exists.
         /// </summary>
         /// <param name="settingName">Name of the setting</param>
@@ -542,16 +573,39 @@
         /// <returns>Converted value</returns>
         protected virtual T ConvertValue<T>(string settingName, string value, IFormatProvider formatProvider)
         {
+            return (T)this.ConvertValue(typeof(T), settingName, value, formatProvider);
+        }
+
+        /// <summary>
+        /// Converts the value to specific type.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="settingName">
+        /// The setting name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="formatProvider">
+        /// The format provider.
+        /// </param>
+        /// <returns>
+        /// Converted value.
+        /// </returns>
+        protected virtual object ConvertValue(Type type, string settingName, string value, IFormatProvider formatProvider)
+        {
             try
             {
-                return TypeConverter.Convert<T>(value, formatProvider);
+                return TypeConverter.Convert(type, value, formatProvider);
             }
             catch (Exception exp)
             {
                 var msg = "Failed to convert setting {0} (value: {1}) into {2}. See inner exception for details."
-                    .FormatWith(settingName, value, typeof(T).FullName);
+                    .FormatWith(settingName, value, type.FullName);
                 throw new AppSettingException(msg, exp);
-            }            
+            }
         }
 
         /// <summary>
