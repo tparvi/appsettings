@@ -44,6 +44,7 @@
     <Compile Include="AppSettingException.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="IgnoreProperty.cs" />
+    <Compile Include="Internal\PropertyHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingProperty.cs" />
     <Compile Include="Internal\Extensions.cs" />
