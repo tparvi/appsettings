@@ -50,6 +50,9 @@
     <Compile Include="CreationTests\When_using_filename_and_option.cs" />
     <Compile Include="CreationTests\When_using_FileOption.cs" />
     <Compile Include="CreationTests\When_using_file_name.cs" />
+    <Compile Include="ReflectionWriteTests\When_IgnoreAttribute_is_defined.cs" />
+    <Compile Include="ReflectionWriteTests\When_SettingAttribute_is_defined.cs" />
+    <Compile Include="ReflectionWriteTests\When_both_IgnoreAndSetting_are_defined.cs" />
     <Compile Include="ReflectionWriteTests\When_writing_into_public_properties.cs" />
     <Compile Include="SaveTests\Read_existing_settings_modify_save_and_read_again.cs" />
     <Compile Include="SaveTests\When_saving_settings.cs" />

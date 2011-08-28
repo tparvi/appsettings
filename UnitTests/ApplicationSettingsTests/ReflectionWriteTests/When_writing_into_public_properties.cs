@@ -1,6 +1,7 @@
 ﻿namespace ApplicationSettingsTests.ReflectionWriteTests
 {
     using System;
+    using System.Globalization;
 
     using ApplicationSettings;
 
@@ -66,32 +67,6 @@
 
             Assert.Throws<AppSettingException>(() => settings.WriteInto(mySettings));
         }
-
-        [Test]
-        public void Then_ignored_properties_should_not_be_written_into()
-        {
-            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
-            var mySettings = new SettingsWithIgnoredProperties(0);
-
-            settings.WriteInto(mySettings);
-
-            Assert.AreEqual("abc", mySettings.NonEmptyStringValue);
-            Assert.AreEqual(0, mySettings.IntValue);
-            
-        }
-    }
-
-    public class SettingsWithIgnoredProperties
-    {
-        public SettingsWithIgnoredProperties(int intValue)
-        {
-            this.IntValue = intValue;
-        }
-
-        public string NonEmptyStringValue { get; set; }
-
-        [IgnoreProperty]
-        public int IntValue { get; set; }
     }
 
     public class SettingsWithInvalidType

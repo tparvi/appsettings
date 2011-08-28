@@ -436,12 +436,14 @@
 
             foreach (var propertyInfo in properties)
             {
-                if (this.CanWriteInto(propertyInfo))
+                var settingName = this.GetSettingName(propertyInfo);
+
+                if (this.CanWriteInto(propertyInfo, settingName))
                 {
                     var type = propertyInfo.PropertyType;
-                    var rawValue = this.GetValue(propertyInfo.Name);
-
-                    var value = this.ConvertValue(type, propertyInfo.Name, rawValue, CultureInfo.InvariantCulture);
+                    var rawValue = this.GetValue(settingName);
+                    var formatProvider = this.GetFormatProvider(propertyInfo);
+                    var value = this.ConvertValue(type, settingName, rawValue, formatProvider);
 
                     propertyInfo.SetValue(instance, value, null);
                 }
@@ -533,12 +535,15 @@
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
+        /// <param name="settingName">
+        /// The setting Name.
+        /// </param>
         /// <returns>
         /// True if property can be written into.
         /// </returns>
-        protected virtual bool CanWriteInto(PropertyInfo propertyInfo)
+        protected virtual bool CanWriteInto(PropertyInfo propertyInfo, string settingName)
         {
-            if (propertyInfo.CanWrite && this.HasAppSetting(propertyInfo.Name))
+            if (propertyInfo.CanWrite && this.HasAppSetting(settingName))
             {
                 var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(IgnoreProperty));
                 if (null == attribute)
@@ -548,6 +553,50 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gtes the format provider for the property. If property contains
+        /// <see cref="SettingProperty"/> then it's <see cref="SettingProperty.CultureName"/>
+        /// is used. Otherwise <see cref="CultureInfo.InvariantCulture"/> is returned.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
+        /// </param>
+        /// <returns>
+        /// Format provider.
+        /// </returns>
+        protected IFormatProvider GetFormatProvider(PropertyInfo propertyInfo)
+        {
+            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            if (null != attribute && null != attribute.CultureName)
+            {
+                return CultureInfo.GetCultureInfo(attribute.CultureName);
+            }
+
+            return CultureInfo.InvariantCulture;
+        }
+
+        /// <summary>
+        /// Gets the name of the setting for the property. If property contains
+        /// <see cref="SettingProperty"/> then it is used. Otherwise property's
+        /// name is returned.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
+        /// </param>
+        /// <returns>
+        /// Name of the setting for the property.
+        /// </returns>
+        protected virtual string GetSettingName(PropertyInfo propertyInfo)
+        {
+            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            if (null != attribute && null != attribute.SettingName)
+            {
+                return attribute.SettingName;
+            }
+
+            return propertyInfo.Name;
         }
 
         /// <summary>
