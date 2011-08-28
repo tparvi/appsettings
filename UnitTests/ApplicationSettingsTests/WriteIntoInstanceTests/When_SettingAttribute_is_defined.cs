@@ -56,7 +56,44 @@
             Assert.AreEqual(11.0d, mySettings.FinnishLocaleDoubleValue);
         }
 
+        [Test]
+        public void And_IsOptional_is_true_and_value_is_found_DefaultValue_is_not_used()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
+
+            var mySettings = new SettingWithOptionalExistingProperty();
+            settings.WriteInto(mySettings);
+
+            Assert.AreEqual(1, mySettings.IntValue);
+            
+        }
+
+        [Test]
+        public void And_IsOptional_is_true_and_value_is_not_found_DefaultValue_is_used()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
+
+            var mySettings = new SettingWithOptionalNonExistingProperty();
+            settings.WriteInto(mySettings);
+
+            Assert.AreEqual(123, mySettings.IntValue);
+        }
+
     }
+
+    public class SettingWithOptionalNonExistingProperty
+    {
+        [SettingProperty(SettingName = "NonExistingProperty", IsOptional = true, DefaultValue = "123")]
+        public int IntValue { get; set; }
+    }
+
+
+    public class SettingWithOptionalExistingProperty
+    {
+        [SettingProperty(IsOptional = true, DefaultValue = "123")]
+        public int IntValue { get; set; }
+    }
+
 
     public class SettingsWithNullCultureName
     {

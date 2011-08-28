@@ -429,7 +429,7 @@
         {
             if (null == instance)
             {
-                throw new ArgumentNullException("instance", "Cannot write configuration values into null object");
+                throw new ArgumentNullException("instance", "Cannot write configuration values into null object.");
             }
 
             var properties = instance.GetType().GetProperties();
@@ -438,10 +438,10 @@
             {
                 var settingName = this.GetSettingName(propertyInfo);
 
-                if (this.CanWriteInto(propertyInfo, settingName))
+                if (this.CanWriteInto(propertyInfo))
                 {
                     var type = propertyInfo.PropertyType;
-                    var rawValue = this.GetValue(settingName);
+                    var rawValue = this.GetSettingsValueForProperty(propertyInfo, settingName);
                     var formatProvider = this.GetFormatProvider(propertyInfo);
                     var value = this.ConvertValue(type, settingName, rawValue, formatProvider);
 
@@ -530,29 +530,55 @@
         }
 
         /// <summary>
-        /// Checks if property can be written into.
+        /// Gets the value for the property. The value is mandatory except if property
+        /// is associated with <see cref="SettingProperty"/> attribute in which case
+        /// it can be optional.
         /// </summary>
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
         /// <param name="settingName">
-        /// The setting Name.
+        /// The setting name.
+        /// </param>
+        /// <returns>
+        /// Value for the property.
+        /// </returns>
+        protected virtual string GetSettingsValueForProperty(PropertyInfo propertyInfo, string settingName)
+        {
+            var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(SettingProperty)) as SettingProperty;
+            if (null != attribute && attribute.IsOptional)
+            {
+                return this.GetOptionalValue(settingName, attribute.DefaultValue);                
+            }
+
+            return this.GetValue(settingName);
+        }
+
+        /// <summary>
+        /// Checks if property can be written into. If the property is read only or
+        /// it is ignored then we cannot write into it.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
         /// </param>
         /// <returns>
         /// True if property can be written into.
         /// </returns>
-        protected virtual bool CanWriteInto(PropertyInfo propertyInfo, string settingName)
+        protected virtual bool CanWriteInto(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CanWrite && this.HasAppSetting(settingName))
+            if (!propertyInfo.CanWrite)
             {
-                var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(IgnoreProperty));
-                if (null == attribute)
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            // If the property is ignored then we don't write into it.
+            var ignoredAttribute = Attribute.GetCustomAttribute(propertyInfo, typeof(IgnoreProperty));
+            if (null != ignoredAttribute)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
