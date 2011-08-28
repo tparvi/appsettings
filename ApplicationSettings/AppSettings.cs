@@ -4,6 +4,7 @@
     using System.Configuration;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// Option used when accessing the physical file.
@@ -435,7 +436,7 @@
 
             foreach (var propertyInfo in properties)
             {
-                if (propertyInfo.CanWrite && this.HasAppSetting(propertyInfo.Name))
+                if (this.CanWriteInto(propertyInfo))
                 {
                     var type = propertyInfo.PropertyType;
                     var rawValue = this.GetValue(propertyInfo.Name);
@@ -524,6 +525,29 @@
             }
             
             return configuration;
+        }
+
+        /// <summary>
+        /// Checks if property can be written into.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
+        /// </param>
+        /// <returns>
+        /// True if property can be written into.
+        /// </returns>
+        protected virtual bool CanWriteInto(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanWrite && this.HasAppSetting(propertyInfo.Name))
+            {
+                var attribute = Attribute.GetCustomAttribute(propertyInfo, typeof(IgnoreProperty));
+                if (null == attribute)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
