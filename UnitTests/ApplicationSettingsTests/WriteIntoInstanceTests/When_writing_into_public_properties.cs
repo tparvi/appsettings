@@ -1,8 +1,5 @@
-﻿namespace ApplicationSettingsTests.ReflectionWriteTests
+﻿namespace ApplicationSettingsTests.WriteIntoInstanceTests
 {
-    using System;
-    using System.Globalization;
-
     using ApplicationSettings;
 
     using ApplicationSettingsTests.Configurations;

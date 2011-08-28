@@ -1,4 +1,4 @@
-﻿namespace ApplicationSettingsTests.ReflectionWriteTests
+﻿namespace ApplicationSettingsTests.WriteIntoInstanceTests
 {
     using ApplicationSettings;
 
