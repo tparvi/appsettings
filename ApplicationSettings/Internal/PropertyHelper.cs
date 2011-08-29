@@ -30,7 +30,7 @@
             var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnoreProperty>();
             if (null != ignoredAttribute)
             {
-                return false;
+                return ignoredAttribute.EnableWriting;
             }
 
             return true;

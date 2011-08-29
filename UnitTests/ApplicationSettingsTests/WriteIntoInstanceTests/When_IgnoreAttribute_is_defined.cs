@@ -19,6 +19,18 @@
 
             Assert.AreEqual(100, mySettings.IntValue);
         }
+
+        [Test]
+        public void And_writing_for_it_is_enabled_then_property_is_written_into()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
+            var mySettings = new SettingsWithIgnoredProperty(100);
+
+            settings.WriteInto(mySettings);
+
+            Assert.AreEqual(1.1d, mySettings.DoubleValue);
+            
+        }
     }
 
     public class SettingsWithIgnoredProperty
@@ -30,5 +42,8 @@
 
         [IgnoreProperty]
         public int IntValue { get; private set; }
+
+        [IgnoreProperty(EnableWriting = true)]
+        public double DoubleValue { get; set; }
     }
 }
