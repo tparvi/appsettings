@@ -20,6 +20,7 @@
             Assert.AreEqual("abc", mySettings.NonEmptyStringValue);
             Assert.AreEqual(1, mySettings.IntValue);
             Assert.IsNull(mySettings.EmptyIntValue);
+            Assert.AreEqual(1.1d, mySettings.DoubleValue);
         }
 
         [Test]
@@ -113,5 +114,6 @@
         public string NonEmptyStringValue { get; set; }
         public int IntValue { get; set; }
         public int? EmptyIntValue { get; set; }
+        public double DoubleValue { get; set; }
     }
 }

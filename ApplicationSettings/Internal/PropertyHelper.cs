@@ -36,6 +36,42 @@
             return true;
         }
 
+        public static bool CanReadFrom(PropertyInfo propertyInfo)
+        {
+            if (!propertyInfo.CanRead)
+            {
+                return false;
+            }
+
+            // If the property is ignored then we don't write into it.
+            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnoreProperty>();
+            if (null != ignoredAttribute)
+            {
+                return ignoredAttribute.EnableReading;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the value of the property.
+        /// </summary>
+        /// <param name="instance">Object from which the property is returned.</param>
+        /// <param name="propertyInfo">The property.</param>
+        /// <param name="formatProvider">Format provider.</param>
+        /// <returns>Value of the property.</returns>
+        public static string GetPropertyValue(object instance, PropertyInfo propertyInfo, IFormatProvider formatProvider)
+        {
+            var tempValue = propertyInfo.GetValue(instance, null);
+            if (null == tempValue)
+            {
+                return string.Empty;
+            }
+
+            var value = Convert.ToString(tempValue, formatProvider);
+            return value;
+        }
+
         /// <summary>
         /// Gtes the format provider for the property. If property contains
         /// <see cref="SettingProperty"/> then it's <see cref="SettingProperty.CultureName"/>

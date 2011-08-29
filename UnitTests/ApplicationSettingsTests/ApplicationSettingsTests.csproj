@@ -50,6 +50,10 @@
     <Compile Include="CreationTests\When_using_filename_and_option.cs" />
     <Compile Include="CreationTests\When_using_FileOption.cs" />
     <Compile Include="CreationTests\When_using_file_name.cs" />
+    <Compile Include="ReadFromInstanceTests\When_both_IgnoreAndSetting_are_defined.cs" />
+    <Compile Include="ReadFromInstanceTests\When_IgnoreAttribute_is_defined.cs" />
+    <Compile Include="ReadFromInstanceTests\When_reading_from_public_properties.cs" />
+    <Compile Include="ReadFromInstanceTests\When_SettingAttribute_is_defined.cs" />
     <Compile Include="WriteIntoInstanceTests\When_IgnoreAttribute_is_defined.cs" />
     <Compile Include="WriteIntoInstanceTests\When_SettingAttribute_is_defined.cs" />
     <Compile Include="WriteIntoInstanceTests\When_both_IgnoreAndSetting_are_defined.cs" />

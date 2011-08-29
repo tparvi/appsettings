@@ -28,7 +28,7 @@
 
             var value = settings.GetValue<double>(SimpleConfig.DoubleValue);
 
-            Assert.AreEqual(1.1, value);
+            Assert.AreEqual(1.1d, value);
         }
 
         [Test]

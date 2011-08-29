@@ -446,10 +446,39 @@
                     var rawValue = this.GetSettingsValueForProperty(propertyInfo, settingName);
                     var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
                     var value = this.ConvertValue(type, settingName, rawValue, formatProvider);
-
                     propertyInfo.SetValue(instance, value, null);
                 }
             }
+        }
+
+        /// <summary>
+        /// Reads public properties of <paramref name="instance"/> and
+        /// writes them into settings. Existing settings are overwritten.
+        /// </summary>
+        /// <param name="instance">
+        /// The instance.
+        /// </param>
+        public virtual void ReadFrom(object instance)
+        {
+            if (null == instance)
+            {
+                throw new ArgumentNullException("instance", "Cannot read configuration values from null object.");
+            }
+
+            var properties = instance.GetType().GetProperties();
+
+            foreach (var propertyInfo in properties)
+            {
+                var settingName = PropertyHelper.GetSettingName(propertyInfo);
+
+                if (PropertyHelper.CanReadFrom(propertyInfo))
+                {
+                    var type = propertyInfo.PropertyType;
+                    var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
+                    var rawValue = PropertyHelper.GetPropertyValue(instance, propertyInfo, formatProvider);                    
+                    this.SetValue(settingName, rawValue);                    
+                }
+            }            
         }
 
         /// <summary>
