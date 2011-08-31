@@ -33,13 +33,14 @@
         /// <summary>
         /// Gets or sets a value indicating whether the setting is optional.
         /// If the setting is not found then <see cref="DefaultValue"/> is
-        /// used.
+        /// used. Used only when <see cref="AppSettings.WriteInto"/> is used.
         /// </summary>
         public bool IsOptional { get; set; }
 
         /// <summary>
         /// Gets or sets DefaultValue which is used when <see cref="IsOptional"/>
-        /// is <true/> and setting does not exist.
+        /// is <true/> and setting does not exist. Used only when 
+        /// <see cref="AppSettings.WriteInto"/> is used.
         /// </summary>
         public string DefaultValue { get; set; }
     }
