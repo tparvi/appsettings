@@ -6,6 +6,7 @@ using System.Text;
 namespace SimpleExample
 {
     using System.Globalization;
+    using System.Reflection;
 
     using ApplicationSettings;
 
@@ -25,9 +26,13 @@ namespace SimpleExample
             try
             {
                 // Open the default app.config file which in this case is SimpleExample.exe.config
-                // and it is located in the same folder as the SimpleExample.exe. If you are using
-                // AppSettings inside .dll the name of the .config file would be NameOfTheAssembly.dll.config
-                settings = new AppSettings(FileOption.FileMustExist);
+                // and it is located in the same folder as the SimpleExample.exe.
+                settings = AppSettings.CreateForAssembly(Assembly.GetEntryAssembly(), FileOption.FileMustExist);
+
+                Console.WriteLine("Full path to configuration file is: {0}", settings.FullPath);
+
+                // Alternative way to open the default app.config
+                // settings = new AppSettings(FileOption.FileMustExist);
 
                 ReadStringValues();
                 ReadStandardDataTypes();

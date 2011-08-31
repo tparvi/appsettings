@@ -39,7 +39,7 @@ namespace ExtensibilityExample
             var strValue = settings.GetValue("StringValue");
             Console.WriteLine("Original StringValue: {0}", strValue);
 
-            settings.UpdateSetting("StringValue", "B");
+            settings.SetValue("StringValue", "B");
             settings.Save();
 
             strValue = settings.GetValue("StringValue");
@@ -49,23 +49,6 @@ namespace ExtensibilityExample
 
     public class ExtendedAppSettings : AppSettings
     {
-        public void UpdateSetting(string settingName, string value)
-        {
-            // This method adds support for updating settings
-
-            if (this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName))
-            {
-                this.Configuration.AppSettings.Settings.Remove(settingName);    
-            }
-            
-            this.Configuration.AppSettings.Settings.Add(settingName, value);
-        }
-
-        public override void Save()
-        {
-            this.Configuration.Save();
-        }
-
         protected override T ConvertValue<T>(string settingName, string value, IFormatProvider formatProvider)
         {
             if (!string.IsNullOrEmpty(value))

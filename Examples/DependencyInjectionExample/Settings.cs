@@ -16,6 +16,7 @@
     public class Settings : AppSettings, ISettings
     {
         public Settings()
+            : base(FileOption.FileMustExist)
         {
             this.UserName = this.GetValue("Username");
             this.Password = this.GetValue("Password");
