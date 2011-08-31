@@ -150,6 +150,11 @@
         /// </returns>
         public static AppSettings CreateForAssembly(Assembly assembly, FileOption fileOption)
         {
+            if (null == assembly)
+            {
+                throw new ArgumentNullException("assembly", "Cannot create AppSettings. Assembly is null.");
+            }
+
             var fullPath = GetPathToConfigurationFile(assembly);
 
             var appSettings = new AppSettings
@@ -179,6 +184,11 @@
         /// </returns>
         public static AppSettings CreateForCurrentUser(Assembly assembly, string pathUnderAppData, FileOption fileOption)
         {
+            if (null == assembly)
+            {
+                throw new ArgumentNullException("assembly", "Cannot create AppSettings. Assembly is null.");
+            }
+
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var path = System.IO.Path.Combine(appData, pathUnderAppData);
 
