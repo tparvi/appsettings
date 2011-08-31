@@ -54,6 +54,7 @@
     <Compile Include="ReadFromInstanceTests\When_IgnoreAttribute_is_defined.cs" />
     <Compile Include="ReadFromInstanceTests\When_reading_from_public_properties.cs" />
     <Compile Include="ReadFromInstanceTests\When_SettingAttribute_is_defined.cs" />
+    <Compile Include="ReadFromWriteIntoTests\When_using_ReadFrom_and_WriteInto.cs" />
     <Compile Include="WriteIntoInstanceTests\When_IgnoreAttribute_is_defined.cs" />
     <Compile Include="WriteIntoInstanceTests\When_SettingAttribute_is_defined.cs" />
     <Compile Include="WriteIntoInstanceTests\When_both_IgnoreAndSetting_are_defined.cs" />
