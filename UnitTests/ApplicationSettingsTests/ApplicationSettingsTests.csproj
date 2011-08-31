@@ -47,6 +47,9 @@
     <Compile Include="Configurations\EmptyConnectionStrings.cs" />
     <Compile Include="Configurations\MultipleConnectionStringsConfig.cs" />
     <Compile Include="Configurations\SimpleConfig.cs" />
+    <Compile Include="CreationTests\When_creating_for_current_user.cs" />
+    <Compile Include="CreationTests\When_creating_for_assembly.cs" />
+    <Compile Include="CreationTests\When_creating_for_calling_assembly.cs" />
     <Compile Include="CreationTests\When_using_filename_and_option.cs" />
     <Compile Include="CreationTests\When_using_FileOption.cs" />
     <Compile Include="CreationTests\When_using_file_name.cs" />

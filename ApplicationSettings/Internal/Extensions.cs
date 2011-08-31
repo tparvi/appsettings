@@ -36,5 +36,32 @@
         {
             return Attribute.GetCustomAttribute(propertyInfo, typeof(T)) as T;
         }
+
+        public static string GetDirectoryName(this Assembly assembly)
+        {
+            return System.IO.Path.GetDirectoryName(assembly.Location);
+        }
+
+        public static string GetFileName(this Assembly assembly)
+        {
+            return System.IO.Path.GetFileName(assembly.Location);
+        }
+
+        public static string GetFileNameWithoutExtension(this Assembly assembly)
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(assembly.Location);
+        }
+
+        public static string GetExtension(this Assembly assembly)
+        {
+            return System.IO.Path.GetExtension(assembly.Location);
+        }
+
+        public static string GetConfigurationFileName(this Assembly assembly, string extension)
+        {
+            var fileName = assembly.GetFileNameWithoutExtension();
+            var currentExtension = assembly.GetExtension().ToLower(CultureInfo.InvariantCulture);
+            return fileName + currentExtension + extension;
+        }
     }
 }

@@ -31,6 +31,11 @@
     public class AppSettings
     {
         /// <summary>
+        /// Extension used for configuration files.
+        /// </summary>
+        public const string Extension = @".config";
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppSettings"/> class.
         /// </summary>
         /// <param name="fileName">
@@ -114,6 +119,74 @@
         /// Gets or sets Configuration.
         /// </summary>
         protected Configuration Configuration { get; set; }
+
+        /// <summary>
+        /// Creates <see cref="AppSettings"/> for the calling assembly by using it's
+        /// location and name to generate the full path to configuration file.        
+        /// </summary>
+        /// <param name="fileOption">
+        /// The file option.
+        /// </param>
+        /// <returns>
+        /// Created <see cref="AppSettings"/> object.
+        /// </returns>
+        public static AppSettings CreateForCallingAssembly(FileOption fileOption)
+        {
+            return CreateForAssembly(Assembly.GetCallingAssembly(), fileOption);
+        }
+
+        /// <summary>
+        /// Creates <see cref="AppSettings"/> for the <paramref name="assembly"/> by using it's
+        /// location and name to generate the full path to configuration file.        
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly.
+        /// </param>
+        /// <param name="fileOption">
+        /// The file option.
+        /// </param>
+        /// <returns>
+        /// Created <see cref="AppSettings"/> object.
+        /// </returns>
+        public static AppSettings CreateForAssembly(Assembly assembly, FileOption fileOption)
+        {
+            var fullPath = GetPathToConfigurationFile(assembly);
+
+            var appSettings = new AppSettings
+            {
+                Configuration = OpenConfigurationFile(fullPath, fileOption)
+            };
+
+            return appSettings;
+        }
+
+        /// <summary>
+        /// Creates <see cref="AppSettings"/> for the <paramref name="assembly"/> by using it's
+        /// name for to generate the configuration file name.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly.
+        /// </param>
+        /// <param name="pathUnderAppData">
+        /// The path under app data. This is appended to the <see cref="Environment.SpecialFolder.ApplicationData"/>
+        /// to get the path to the folder where configuration file is.
+        /// </param>
+        /// <param name="fileOption">
+        /// The file option.
+        /// </param>
+        /// <returns>
+        /// Created <see cref="AppSettings"/> object.
+        /// </returns>
+        public static AppSettings CreateForCurrentUser(Assembly assembly, string pathUnderAppData, FileOption fileOption)
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var path = System.IO.Path.Combine(appData, pathUnderAppData);
+
+            var fileName = assembly.GetConfigurationFileName(Extension);
+            var fulPath = System.IO.Path.Combine(path, fileName);
+
+            return new AppSettings(fulPath, fileOption);
+        }
 
         /// <summary>
         /// Saves the settings into physical file.
@@ -489,6 +562,24 @@
         public bool HasAppSetting(string settingName)
         {
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
+        }
+
+        /// <summary>
+        /// Gets the full path to the configuration file by generating the
+        /// configuration file name from the <paramref name="assembly"/>
+        /// and by appending the <see cref="Extension"/> to the file name.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly.
+        /// </param>
+        /// <returns>
+        /// Full path to configuration file.
+        /// </returns>
+        protected static string GetPathToConfigurationFile(Assembly assembly)
+        {
+            var location = assembly.GetDirectoryName();
+            var fileName = assembly.GetConfigurationFileName(Extension);
+            return System.IO.Path.Combine(location, fileName);
         }
 
         /// <summary>
