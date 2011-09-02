@@ -556,7 +556,6 @@
 
                 if (PropertyHelper.CanReadFrom(propertyInfo))
                 {
-                    var type = propertyInfo.PropertyType;
                     var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
                     var rawValue = PropertyHelper.GetPropertyValue(instance, propertyInfo, formatProvider);                    
                     this.SetValue(settingName, rawValue);                    
