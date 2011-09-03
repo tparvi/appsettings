@@ -28,7 +28,7 @@
 
     /// <summary>
     /// Application settings.
-    /// </summary>
+    /// </summary>    
     public class AppSettings
     {
         /// <summary>
@@ -232,7 +232,8 @@
         /// </summary>
         /// <typeparam name="T">Type of the value</typeparam>
         /// <param name="settingName">Name of the setting.</param>
-        /// <returns>Value of the setting</returns>
+        /// <returns>Value of the setting</returns>     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "ApplicationSettings.AppSettings.GetValue(System.String)", Justification = "ConvertValue takes care of it")]   
         public T GetValue<T>(string settingName)
         {
             var value = this.GetValue(settingName);
@@ -254,6 +255,7 @@
         /// <returns>
         /// Value of the setting.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "ApplicationSettings.AppSettings.GetValue(System.String)", Justification = "Conversion func takes care of it")]
         public T GetValue<T>(string settingName, Func<string, string, T> conversionFunc)
         {
             var value = this.GetValue(settingName);
@@ -275,6 +277,7 @@
         /// <returns>
         /// Value of the setting.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "ApplicationSettings.AppSettings.GetValue(System.String)", Justification = "ConvertValue takes care of it")]
         public T GetValue<T>(string settingName, IFormatProvider formatProvider)
         {
             var value = this.GetValue(settingName);
@@ -717,6 +720,7 @@
         /// <returns>
         /// Value for the property.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "ApplicationSettings.AppSettings.GetValue(System.String)", Justification = "ConnectionStrings are not converted")]
         protected virtual string GetSettingsValueForProperty(PropertyInfo propertyInfo, string settingName)
         {
             var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
