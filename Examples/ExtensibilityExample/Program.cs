@@ -31,7 +31,7 @@ namespace ExtensibilityExample
             Console.WriteLine("Original DollarValue in config: {0}", dollarStrValue);
 
             var dollarValue = settings.GetValue<int>("DollarValue");
-            Console.WriteLine("DollarValue after custom conversion is: {0}", dollarValue);
+            Console.WriteLine("DollarValue as int after custom conversion is: {0}", dollarValue);
         }
 
         private static void UpdateSettingValue()
@@ -49,6 +49,11 @@ namespace ExtensibilityExample
 
     public class ExtendedAppSettings : AppSettings
     {
+        public ExtendedAppSettings()
+            : base(FileOption.FileMustExist)
+        {
+        }
+
         protected override T ConvertValue<T>(string settingName, string value, IFormatProvider formatProvider)
         {
             if (!string.IsNullOrEmpty(value))
