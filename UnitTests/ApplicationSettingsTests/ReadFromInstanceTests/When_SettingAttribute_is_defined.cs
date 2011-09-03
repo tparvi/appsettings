@@ -59,6 +59,27 @@
             Assert.AreEqual("1.1", settings.GetValue("DoubleWithFinnishLocale"));
             Assert.AreEqual(1.1d, settings.GetValue<double>("DoubleWithFinnishLocale"));
         }
+
+        [Test]
+        public void And_IsConnectionString_is_true_then_setting_is_saved_as_connection_string()
+        {
+            var settings = new AppSettings("filename", FileOption.None);
+            var mySettings = new SettingsWithConnectionString()
+                {
+                    DatabaseConnectionString = @"Data Source=localhost;Initial Catalog=MyDb;User Id=username;Password=password;"
+                };
+
+            settings.ReadFrom(mySettings);
+
+            var value = settings.GetConnectionString("MyDb");
+            Assert.AreEqual(value, mySettings.DatabaseConnectionString);
+        }
+    }
+
+    public class SettingsWithConnectionString
+    {
+        [SettingProperty(SettingName = "MyDb", IsConnectionString = true)]
+        public string DatabaseConnectionString { get; set; }
     }
 
     public class SettingsWithNullCultureName

@@ -1,9 +1,7 @@
 ﻿namespace ApplicationSettingsTests.WriteIntoInstanceTests
 {
     using ApplicationSettings;
-
     using ApplicationSettingsTests.Configurations;
-
     using NUnit.Framework;
 
     [TestFixture]
@@ -79,7 +77,29 @@
             Assert.AreEqual(123, mySettings.IntValue);
         }
 
+        [Test]
+        public void And_IsConnectionString_is_true_then_setting_is_read_from_connection_strings()
+        {
+            var settings = new AppSettings(SimpleConfig.AbsolutePathToConfigFile);
+            var mySettings = new SettingsWithConnectionString();
+
+            settings.WriteInto(mySettings);
+
+            var value = settings.GetConnectionString("MyDatabase");
+            Assert.AreEqual(value, mySettings.DatabaseConnectionString);
+            Assert.AreEqual("A", mySettings.OptionalConnectionString);
+        }
     }
+
+    public class SettingsWithConnectionString
+    {
+        [SettingProperty(SettingName = "MyDatabase", IsConnectionString = true)]
+        public string DatabaseConnectionString { get; set; }
+
+        [SettingProperty(SettingName = "NonExistingConnectionString", IsOptional = true, IsConnectionString = true, DefaultValue = "A")]
+        public string OptionalConnectionString { get; set; }
+    }
+
 
     public class SettingWithOptionalNonExistingProperty
     {

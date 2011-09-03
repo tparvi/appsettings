@@ -115,5 +115,16 @@
 
             return propertyInfo.Name;
         }
+
+        /// <summary>
+        /// Checks if the property is actually defined as connection string.
+        /// </summary>
+        /// <param name="propertyInfo">The property info.</param>
+        /// <returns>True if property is connection string.</returns>
+        public static bool IsConnectionString(PropertyInfo propertyInfo)
+        {
+            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            return null != attribute && attribute.IsConnectionString;
+        }
     }
 }

@@ -521,16 +521,28 @@
 
             foreach (var propertyInfo in properties)
             {
+                if (!PropertyHelper.CanWriteInto(propertyInfo))
+                {
+                    continue;
+                }
+
                 var settingName = PropertyHelper.GetSettingName(propertyInfo);
 
-                if (PropertyHelper.CanWriteInto(propertyInfo))
-                {
-                    var type = propertyInfo.PropertyType;
-                    var rawValue = this.GetSettingsValueForProperty(propertyInfo, settingName);
-                    var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
-                    var value = this.ConvertValue(type, settingName, rawValue, formatProvider);
-                    propertyInfo.SetValue(instance, value, null);
+                string rawValue;
+
+                if (PropertyHelper.IsConnectionString(propertyInfo))
+                {                    
+                    rawValue = this.GetConnectionStringValueForProperty(propertyInfo, settingName);                    
                 }
+                else
+                {
+                    rawValue = this.GetSettingsValueForProperty(propertyInfo, settingName);
+                }
+
+                var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
+                var type = propertyInfo.PropertyType;
+                var value = this.ConvertValue(type, settingName, rawValue, formatProvider);
+                propertyInfo.SetValue(instance, value, null);
             }
         }
 
@@ -554,11 +566,21 @@
             {
                 var settingName = PropertyHelper.GetSettingName(propertyInfo);
 
-                if (PropertyHelper.CanReadFrom(propertyInfo))
+                if (!PropertyHelper.CanReadFrom(propertyInfo))
                 {
-                    var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
-                    var rawValue = PropertyHelper.GetPropertyValue(instance, propertyInfo, formatProvider);                    
-                    this.SetValue(settingName, rawValue);                    
+                    continue;
+                }
+
+                var formatProvider = PropertyHelper.GetFormatProvider(propertyInfo);
+                var rawValue = PropertyHelper.GetPropertyValue(instance, propertyInfo, formatProvider);
+
+                if (PropertyHelper.IsConnectionString(propertyInfo))
+                {
+                    this.SetConnectionString(settingName, rawValue);
+                }
+                else
+                {
+                    this.SetValue(settingName, rawValue);
                 }
             }            
         }
@@ -576,6 +598,20 @@
             }
 
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
+        }
+
+        /// <summary>
+        /// Checks if the connection string exists.
+        /// </summary>
+        /// <param name="connectionStringName">
+        /// The connection string name.
+        /// </param>
+        /// <returns>
+        /// True if the connection string exists.
+        /// </returns>
+        public bool HasConnectionString(string connectionStringName)
+        {
+            return null != this.GetConnectionStringByName(connectionStringName);
         }
 
         /// <summary>
@@ -688,6 +724,34 @@
             }
 
             return this.GetValue(settingName);
+        }
+
+        /// <summary>
+        /// Gets the connection string for the property. The value is mandatory except if property
+        /// is associated with <see cref="SettingProperty"/> attribute in which case
+        /// it can be optional.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
+        /// </param>
+        /// <param name="connectionStringName">
+        /// The connection string name.
+        /// </param>
+        /// <returns>
+        /// Value for the connection string.
+        /// </returns>
+        protected virtual string GetConnectionStringValueForProperty(PropertyInfo propertyInfo, string connectionStringName)
+        {
+            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            if (null != attribute && attribute.IsOptional)
+            {
+                if (!this.HasConnectionString(connectionStringName))
+                {
+                    return attribute.DefaultValue;
+                }
+            }
+
+            return this.GetConnectionString(connectionStringName);            
         }
 
         /// <summary>

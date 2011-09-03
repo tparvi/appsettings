@@ -25,7 +25,7 @@ namespace AttributeUsageExample
 
                 mySettings.StringValue = new string(mySettings.StringValue.Reverse().ToArray());
 
-                // Read everything back and save
+                // Read everything back into settings and save
                 settings.ReadFrom(mySettings);
                 settings.Save();
             }
@@ -70,5 +70,12 @@ namespace AttributeUsageExample
         /// </summary>
         [SettingProperty(IsOptional = true, DefaultValue = "A")]
         public string OptionalSetting { get; private set; }
+
+        /// <summary>
+        /// Connection strings can be handled by specifying that the property
+        /// is actually ConnectionString.
+        /// </summary>
+        [SettingProperty(IsConnectionString = true, SettingName = "MyDatabase")]
+        public string ConnectionString { get; set; }
     }
 }

@@ -43,5 +43,11 @@
         /// <see cref="AppSettings.WriteInto"/> is used.
         /// </summary>
         public string DefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether setting is actually
+        /// connection string and should be read and written as such.
+        /// </summary>
+        public bool IsConnectionString { get; set; }
     }
 }
