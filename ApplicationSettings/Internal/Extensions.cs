@@ -57,6 +57,7 @@
             return System.IO.Path.GetExtension(assembly.Location);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "We want it lower case.")]
         public static string GetConfigurationFileName(this Assembly assembly, string extension)
         {
             var fileName = assembly.GetFileNameWithoutExtension();

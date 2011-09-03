@@ -39,6 +39,7 @@
         /// <param name="value">Value to be converted</param>
         /// <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
         /// <returns>Converted value.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1820:TestForEmptyStringsUsingStringLength", Justification = "I only care about Empty value")]
         public static object Convert(Type type, string value, IFormatProvider formatProvider)
         {
             // In case the type is e.g. Nullable<int>
