@@ -29,10 +29,8 @@ namespace SimpleExample
                 // and it is located in the same folder as the SimpleExample.exe.
                 settings = AppSettings.CreateForAssembly(Assembly.GetEntryAssembly(), FileOption.FileMustExist);
 
+                // If you want to know the full path to the configuration file, use the FullPath property
                 Console.WriteLine("Full path to configuration file is: {0}", settings.FullPath);
-
-                // Alternative way to open the default app.config
-                // settings = new AppSettings(FileOption.FileMustExist);
 
                 ReadStringValues();
                 ReadStandardDataTypes();
@@ -43,10 +41,14 @@ namespace SimpleExample
                 ReadUsingCustomConversionFunction();
                 ReadConnectionString();
                 ReadingCustomConfigurationFile();
+
+                UpdatingValues();
+                CreatingAppSettings();
             }
             catch (Exception exp)
             {
                 Console.Error.WriteLine(exp.Message);
+                throw;
             }
         }
 
@@ -54,20 +56,16 @@ namespace SimpleExample
         {
             // String values can be read without having to specify the type. This avoids the
             // unnecessary type conversion.
-            var firstStringValue = settings.GetValue("FirstStringValue");
-            Console.WriteLine("FirstStringValue is: {0}", firstStringValue);
+            var str = settings.GetValue("StringValue");
+            Console.WriteLine("StringValue is: {0}", str);
 
             // Of course nothing forbids you of using the type when reading string values
-            var secondStringValue = settings.GetValue<string>("SecondStringValue");
-            Console.WriteLine("SecondStringValue is: {0}", secondStringValue);            
+            settings.GetValue<string>("StringValue");
         }
 
         public static void ReadStandardDataTypes()
         {
             // Standard .NET data types can be read type safely
-            var intValue = settings.GetValue<int>("IntValue");
-            Console.WriteLine("IntValue is {0}", intValue);
-
             var doubleValue = settings.GetValue<double>("DoubleValue");
             Console.WriteLine("DoubleValue is {0}", doubleValue);
         }
@@ -81,7 +79,6 @@ namespace SimpleExample
             // You can also read enumerations which are stored as integers
             projectStatus = settings.GetValue<ProjectStatus>("EnumNumeric");
             Console.WriteLine("Enum saved as integer has value: {0}", projectStatus);
-
         }
 
         public static void ReadNullableValues()
@@ -92,8 +89,8 @@ namespace SimpleExample
             Console.WriteLine("EmptyIntValue HasValue returns: {0}", nullableIntValue.HasValue);
 
             // If the value is not empty you can access it using the .Value property
-            var intValue = settings.GetValue<int?>("IntValue");
-            Console.WriteLine("IntValue is {0}", intValue.Value);            
+            var doubleValue = settings.GetValue<double?>("DoubleValue");
+            Console.WriteLine("DoubleValue is {0}", doubleValue.Value);            
         }
 
         public static void ReadUsingCustomFormatProvider()
@@ -121,32 +118,51 @@ namespace SimpleExample
         public static void ReadUsingCustomConversionFunction()
         {
             // Sometimes you want to specify custom converson function for your value
-            var value = settings.GetValue<int>("SecondIntValue", (setting, rawValue) => int.Parse(rawValue) * 10);
-
-            Console.WriteLine("SecondIntValue using custom conversion function is: {0}", value);
+            var value = settings.GetValue<double>("DoubleValue", (setting, rawValue) 
+                => double.Parse(rawValue, CultureInfo.InvariantCulture) * 10);
+            Console.WriteLine("DoubleValue using custom conversion function is: {0}", value);
         }
 
         public static void ReadConnectionString()
         {
-            // If you have only single connection string you can access it by
-            // using the ConnectionString property. Unfortunately .NET configuration
-            // files inherit connection string from upper level configurations and
-            // your machine.config is bound to have some. Fortunately you can add
-            // the <clear/> tag to get rid of them. See the app.config file for example
-            var cs = settings.ConnectionString;
-            Console.WriteLine("ConnectionString is: {0}", cs);
-
-            // Of course you can still access connection string by their name
-            cs = settings.GetConnectionString("MyDatabase");
+            var cs = settings.GetConnectionString("MyDatabase");
         }
 
         public static void ReadingCustomConfigurationFile()
         {
             // If your .config fle is named something else you can
             // give relative or absolute path to that file
-            var custom = new AppSettings(@"Custom.config");
+            var custom = new AppSettings(@"Custom.config", FileOption.FileMustExist);
+            Console.WriteLine("Value in Custom.config is {0}", custom.GetValue("Custom"));
+        }
 
-            Console.WriteLine("Value is Custom.config is {0}", custom.GetValue("Custom"));
+        public static void UpdatingValues()
+        {
+            Console.WriteLine("Updating values");
+
+            // You can update the setting value simply using SetValue
+            settings.SetValue("StringValue", "new value");
+            settings.SetValue<double>("DoubleValue", 1.2d);
+            settings.SetConnectionString("MyDatabase", "Data Source=localhost;Initial Catalog=MyDb;User Id=username;Password=newpassword;");
+
+            Console.WriteLine("Saving settings");
+            settings.Save();
+        }
+
+        public static void CreatingAppSettings()
+        {
+            // Creating for the entry point of your program. Entry
+            // point can be foo.exe (foo.exe.configuration) or foo.dll (foo.dll.configuration)
+            var entryPoint = AppSettings.CreateForAssembly(Assembly.GetEntryAssembly(), FileOption.None);
+            
+            // If you call CreateForCallingAssembly from foo.dll then
+            // the name of the configuration file should be foo.dll.config
+            AppSettings.CreateForCallingAssembly(FileOption.None);
+
+            // If your settings are stored under AppData folder you can create
+            // AppSettings for the current user.
+            var currentUserOfApp = AppSettings.CreateForCurrentUser(Assembly.GetEntryAssembly(), "MyApplication", FileOption.None);
+            Console.WriteLine("Configuration for current user points to {0}", currentUserOfApp.FullPath);
         }
     }
 }
