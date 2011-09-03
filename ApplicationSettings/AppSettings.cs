@@ -570,6 +570,11 @@
         /// <returns>True if setting exists.</returns>
         public bool HasAppSetting(string settingName)
         {
+            if (null == this.Configuration)
+            {
+                throw new InvalidOperationException("The Configuration has not been created yet (Configuration is null)");
+            }
+
             return this.Configuration.AppSettings.Settings.AllKeys.Contains(settingName);
         }
 
