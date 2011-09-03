@@ -5,8 +5,9 @@
     /// <summary>
     /// Describes that property should be ignored.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Ok")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class IgnoreProperty : Attribute
+    public class IgnorePropertyAttribute : Attribute
     {
         /// <summary>
         /// Gets or sets a value indicating whether property

@@ -7,12 +7,13 @@
     /// Describes the setting related properties.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class SettingProperty : Attribute
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Ok")]
+    public class SettingPropertyAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SettingProperty"/> class.
+        /// Initializes a new instance of the <see cref="SettingPropertyAttribute"/> class.
         /// </summary>
-        public SettingProperty()
+        public SettingPropertyAttribute()
         {
             this.IsOptional = false;
         }

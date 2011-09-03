@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
 
     using ApplicationSettings.Internal;
 
@@ -107,6 +108,7 @@
         /// Gets the only ConnectionString from the configuration. If there are
         /// multiple connection strings or none then exception is thrown.
         /// </summary>
+        [Obsolete("Use GetConnectionString method")]
         public virtual string ConnectionString
         {
             get
@@ -703,7 +705,7 @@
 
         /// <summary>
         /// Gets the value for the property. The value is mandatory except if property
-        /// is associated with <see cref="SettingProperty"/> attribute in which case
+        /// is associated with <see cref="SettingPropertyAttribute"/> attribute in which case
         /// it can be optional.
         /// </summary>
         /// <param name="propertyInfo">
@@ -717,7 +719,7 @@
         /// </returns>
         protected virtual string GetSettingsValueForProperty(PropertyInfo propertyInfo, string settingName)
         {
-            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
             if (null != attribute && attribute.IsOptional)
             {
                 return this.GetOptionalValue(settingName, attribute.DefaultValue);                
@@ -728,7 +730,7 @@
 
         /// <summary>
         /// Gets the connection string for the property. The value is mandatory except if property
-        /// is associated with <see cref="SettingProperty"/> attribute in which case
+        /// is associated with <see cref="SettingPropertyAttribute"/> attribute in which case
         /// it can be optional.
         /// </summary>
         /// <param name="propertyInfo">
@@ -742,7 +744,7 @@
         /// </returns>
         protected virtual string GetConnectionStringValueForProperty(PropertyInfo propertyInfo, string connectionStringName)
         {
-            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
             if (null != attribute && attribute.IsOptional)
             {
                 if (!this.HasConnectionString(connectionStringName))
@@ -852,6 +854,8 @@
         /// <returns>
         /// The only connection string that has been configured.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Obsolete method")]
+        [Obsolete("Use GetConnectionString method")]
         protected virtual string GetOnlyExistingConnectionString()
         {
             this.ValidateThatOnlySingleConnectionStringExists();
@@ -864,23 +868,25 @@
         /// <exception cref="AppSettingException">
         /// If there are no connection strings or multiple connection strings.
         /// </exception>
+        [Obsolete("Use GetConnectionString")]
         protected virtual void ValidateThatOnlySingleConnectionStringExists()
         {
             if (this.Configuration.ConnectionStrings.ConnectionStrings.Count > 1)
             {
-                var msg = "Cannot return connection strings because there are multiple connection strings." + Environment.NewLine;
-                msg += "Found following connection strings from the configuration:" + Environment.NewLine;
+                var builder = new StringBuilder();
+                builder.AppendLine("Cannot return connection strings because there are multiple connection strings.");
+                builder.AppendLine("Found following connection strings from the configuration:");
 
                 foreach (var cs in this.Configuration.ConnectionStrings.ConnectionStrings)
                 {
-                    msg += cs + Environment.NewLine;
+                    builder.AppendLine(cs.ToString());
                 }
 
-                msg += "If your config contains only single connection string make sure you add <clear/>" + Environment.NewLine;
-                msg += "right below <connectionStrings> to remove machine level connection strings which are automatically" + Environment.NewLine;
-                msg += "added to your configuration from machine.config.";
+                builder.AppendLine("If your config contains only single connection string make sure you add <clear/>");
+                builder.AppendLine("right below <connectionStrings> to remove machine level connection strings which are automatically");
+                builder.AppendLine("added to your configuration from machine.config.");
 
-                throw new AppSettingException(msg);
+                throw new AppSettingException(builder.ToString());
             }
 
             if (1 != this.Configuration.ConnectionStrings.ConnectionStrings.Count)

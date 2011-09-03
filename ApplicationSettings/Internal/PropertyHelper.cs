@@ -27,7 +27,7 @@
             }
 
             // If the property is ignored then we don't write into it.
-            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnoreProperty>();
+            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnorePropertyAttribute>();
             if (null != ignoredAttribute)
             {
                 return ignoredAttribute.EnableWriting;
@@ -44,7 +44,7 @@
             }
 
             // If the property is ignored then we don't write into it.
-            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnoreProperty>();
+            var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnorePropertyAttribute>();
             if (null != ignoredAttribute)
             {
                 return ignoredAttribute.EnableReading;
@@ -74,7 +74,7 @@
 
         /// <summary>
         /// Gtes the format provider for the property. If property contains
-        /// <see cref="SettingProperty"/> then it's <see cref="SettingProperty.CultureName"/>
+        /// <see cref="SettingPropertyAttribute"/> then it's <see cref="SettingPropertyAttribute.CultureName"/>
         /// is used. Otherwise <see cref="CultureInfo.InvariantCulture"/> is returned.
         /// </summary>
         /// <param name="propertyInfo">
@@ -85,7 +85,7 @@
         /// </returns>
         public static IFormatProvider GetFormatProvider(PropertyInfo propertyInfo)
         {
-            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
             if (null != attribute && null != attribute.CultureName)
             {
                 return CultureInfo.GetCultureInfo(attribute.CultureName);
@@ -96,7 +96,7 @@
 
         /// <summary>
         /// Gets the name of the setting for the property. If property contains
-        /// <see cref="SettingProperty"/> then it is used. Otherwise property's
+        /// <see cref="SettingPropertyAttribute"/> then it is used. Otherwise property's
         /// name is returned.
         /// </summary>
         /// <param name="propertyInfo">
@@ -107,7 +107,7 @@
         /// </returns>
         public static string GetSettingName(PropertyInfo propertyInfo)
         {
-            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
             if (null != attribute && null != attribute.SettingName)
             {
                 return attribute.SettingName;
@@ -123,7 +123,7 @@
         /// <returns>True if property is connection string.</returns>
         public static bool IsConnectionString(PropertyInfo propertyInfo)
         {
-            var attribute = propertyInfo.GetCustomAttribute<SettingProperty>();
+            var attribute = propertyInfo.GetCustomAttribute<SettingPropertyAttribute>();
             return null != attribute && attribute.IsConnectionString;
         }
     }
