@@ -878,7 +878,7 @@
 
                 msg += "If your config contains only single connection string make sure you add <clear/>" + Environment.NewLine;
                 msg += "right below <connectionStrings> to remove machine level connection strings which are automatically" + Environment.NewLine;
-                msg += "added to your configuration from machine.config. See the app.config file in SimpleExample project for more info.";
+                msg += "added to your configuration from machine.config.";
 
                 throw new AppSettingException(msg);
             }
