@@ -1,4 +1,4 @@
-Copyright © 2001 Toni Parviainen (tparvi@gmail.com) All Rights Reserved.
+Copyright © 2011 Toni Parviainen (tparvi@gmail.com) All Rights Reserved.
 
 The ApplicationSettings library is licensed under LGPL v3.0. The complete license text is below.
 
