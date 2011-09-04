@@ -1,25 +1,18 @@
 ##Description
 
-Library (.NET 4.0, C#) for accessing .config files using generic type safe methods. For more information see [Wiki](https://github.com/tparvi/appsettings/wiki).
+Library (.NET 4.0, C#) for reading and writing application settings in standard .config (app.config, Web.Config) files using generic type safe methods. For more information see [Wiki](https://github.com/tparvi/appsettings/wiki). The library functionality supports only the appSettings section. There is no support for custom configuration sections.
 
-The library does not expose 100% of the functionality provided by the wrapped  [Configuration](http://msdn.microsoft.com/en-us/library/system.configuration.configuration.aspx) class. It covers the most common use cases and provides extension points through protected methods.
+Latest stable release is v1.1 which is available for [download](https://github.com/downloads/tparvi/appsettings/AppSettings_v1.1.zip)
 
-Latest stable release is v1.0 which is available for [download](https://github.com/downloads/tparvi/appsettings/AppSettings_v1.0.zip)
+## Features
 
-##Currently implemented functionality (v1.0)
-
-+ reading .config files by giving relative or absolute path to it
-+ reading standard .net types, enums and nullables type safely
-+ support for reading optional settings
-+ support for custom conversion functions
-+ support for custom IFormatProvider when converting values
-+ reading connection strings
-
-##Roadmap
-
-+ Easier methods for opening web.config (compare to WebConfigurationManager)
-+ reading complete sections into type safe objects
-+ support for write (save, update, replace etc.) methods
++ Reading and writing settings in the appSettings and connectionStrings sections
++ Supports standard .NET types, enums and nullables via generic type safe methods
++ Optional settings (default value you specify is returned if setting is not found)
++ Custom conversion functions
++ Custom IFormatProvider (e.g. CultureInfo.GetCultureInfo("fi-FI")
++ Write/read settings directly into public properties of any object
++ Ignore properties using attributes when using ReadInto/WriteInto methods
 
 ##License
 
