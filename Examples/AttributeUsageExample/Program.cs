@@ -40,7 +40,7 @@ namespace AttributeUsageExample
     public class MyApplicationSettings
     {
         /// <summary>
-        /// Basic case. Setting named StringValue is uesd for
+        /// Basic case. Setting named StringValue is used for
         /// this property and setting must exist.
         /// </summary>
         public string StringValue { get; set; }
@@ -66,7 +66,7 @@ namespace AttributeUsageExample
 
         /// <summary>
         /// This value might or might not exist. If it does not exist
-        /// then default vlaue abc is used when reading configuration settings.
+        /// then default value abc is used when reading configuration settings.
         /// </summary>
         [SettingProperty(IsOptional = true, DefaultValue = "A")]
         public string OptionalSetting { get; private set; }

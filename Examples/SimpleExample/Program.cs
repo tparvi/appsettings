@@ -152,7 +152,7 @@ namespace SimpleExample
         public static void CreatingAppSettings()
         {
             // Creating for the entry point of your program. Entry
-            // point can be foo.exe (foo.exe.configuration) or foo.dll (foo.dll.configuration)
+            // point can be foo.exe (foo.exe.config) or foo.dll (foo.dll.config)
             var entryPoint = AppSettings.CreateForAssembly(Assembly.GetEntryAssembly(), FileOption.None);
             
             // If you call CreateForCallingAssembly from foo.dll then
