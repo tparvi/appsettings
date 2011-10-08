@@ -1,5 +1,7 @@
 ﻿namespace ApplicationSettingsTests.ReadFromInstanceTests
 {
+    using System.Configuration;
+
     using ApplicationSettings;
 
     using ApplicationSettingsTests.Configurations;
@@ -76,6 +78,41 @@
             settings.ReadFrom(mySettings);
 
             Assert.AreEqual("b", settings.GetValue("NonEmptyStringValue"));            
+        }
+
+        [Test]
+        public void Then_properties_in_AppSettings_class_should_be_skipped()
+        {
+            var settings = new CustomizedAppSettings("filename", FileOption.None);
+            settings.Numeric = 10;
+
+            settings.SaveAllIntoSettings();
+
+            Assert.AreEqual(1, settings.Config.AppSettings.Settings.Count);            
+        }
+    }
+
+    public class CustomizedAppSettings : AppSettings
+    {
+        public CustomizedAppSettings(string fileName, FileOption fileOption)
+            : base(fileName, fileOption)
+        {
+        }
+
+        public void SaveAllIntoSettings()
+        {
+            this.ReadFrom(this);
+        }
+
+        public int Numeric { get; set; }
+
+        [IgnoreProperty]
+        public Configuration Config
+        {
+            get
+            {
+                return this.Configuration;
+            }
         }
     }
 

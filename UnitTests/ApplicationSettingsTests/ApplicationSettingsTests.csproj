@@ -51,6 +51,7 @@
       <HintPath>..\..\Lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -86,7 +87,6 @@
     <Compile Include="UpdateTests\When_updating_generic_value.cs" />
     <Compile Include="UpdateTests\When_updating_string_value.cs" />
     <Compile Include="When_Getting_ConnectionString_By_Name.cs" />
-    <Compile Include="When_Getting_ConnectionString.cs" />
     <Compile Include="When_Getting_Optional_Value.cs" />
     <Compile Include="When_Getting_Mandatory_Value.cs" />
     <Compile Include="TypeConverterTests\When_Converting_Nullable_Type.cs" />

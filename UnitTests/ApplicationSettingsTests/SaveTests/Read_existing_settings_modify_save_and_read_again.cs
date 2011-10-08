@@ -45,7 +45,6 @@
                 Assert.AreEqual(int.MinValue, intValue);
                 Assert.AreEqual(1, emptyIntValue);
                 Assert.AreEqual(1.1d, doubleValue);
-                Assert.AreEqual("db", otherSettings.ConnectionString);
             }
             finally 
             {

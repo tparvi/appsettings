@@ -1,5 +1,7 @@
 ﻿namespace ApplicationSettingsTests.WriteIntoInstanceTests
 {
+    using System.Configuration;
+
     using ApplicationSettings;
 
     using ApplicationSettingsTests.Configurations;

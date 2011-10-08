@@ -105,19 +105,6 @@
         }
 
         /// <summary>
-        /// Gets the only ConnectionString from the configuration. If there are
-        /// multiple connection strings or none then exception is thrown.
-        /// </summary>
-        [Obsolete("Use GetConnectionString method")]
-        public virtual string ConnectionString
-        {
-            get
-            {
-                return this.GetOnlyExistingConnectionString();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets Configuration.
         /// </summary>
         protected Configuration Configuration { get; set; }

@@ -26,6 +26,12 @@
                 return false;
             }
 
+            // if the property is located in this class then we don't write into it.
+            if (typeof(AppSettings) == propertyInfo.DeclaringType)
+            {
+                return false;
+            }
+
             // If the property is ignored then we don't write into it.
             var ignoredAttribute = propertyInfo.GetCustomAttribute<IgnorePropertyAttribute>();
             if (null != ignoredAttribute)
@@ -39,6 +45,12 @@
         public static bool CanReadFrom(PropertyInfo propertyInfo)
         {
             if (!propertyInfo.CanRead)
+            {
+                return false;
+            }
+
+            // if the property is located in this class then we don't read from it.
+            if (typeof(AppSettings) == propertyInfo.DeclaringType)
             {
                 return false;
             }
