@@ -2,7 +2,7 @@
 
 Library (.NET 4.0, C#) for reading and writing application settings in standard .config (app.config, Web.Config) files using generic type safe methods. For more information see [Wiki](https://github.com/tparvi/appsettings/wiki). The library functionality supports only the appSettings section. There is no support for custom configuration sections.
 
-Latest stable release is v1.1 which is available for [download](https://github.com/downloads/tparvi/appsettings/AppSettings_v1.1.zip)
+Latest stable release is v1.2 which is available for [download](https://github.com/downloads/tparvi/appsettings/AppSettings_v1.2.zip)
 
 ## Features
 
