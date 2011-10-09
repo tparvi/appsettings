@@ -838,54 +838,5 @@
         {
             return this.Configuration.AppSettings.Settings[settingName].Value;
         }
-
-        /// <summary>
-        /// Checsk that there is only single connection string and returns it.
-        /// </summary>
-        /// <returns>
-        /// The only connection string that has been configured.
-        /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Obsolete method")]
-        [Obsolete("Use GetConnectionString method")]
-        protected virtual string GetOnlyExistingConnectionString()
-        {
-            this.ValidateThatOnlySingleConnectionStringExists();
-            return this.Configuration.ConnectionStrings.ConnectionStrings[0].ConnectionString;            
-        }
-
-        /// <summary>
-        /// Validates the there is only single connection string.
-        /// </summary>
-        /// <exception cref="AppSettingException">
-        /// If there are no connection strings or multiple connection strings.
-        /// </exception>
-        [Obsolete("Use GetConnectionString")]
-        protected virtual void ValidateThatOnlySingleConnectionStringExists()
-        {
-            if (this.Configuration.ConnectionStrings.ConnectionStrings.Count > 1)
-            {
-                var builder = new StringBuilder();
-                builder.AppendLine("Cannot return connection strings because there are multiple connection strings.");
-                builder.AppendLine("Found following connection strings from the configuration:");
-
-                foreach (var cs in this.Configuration.ConnectionStrings.ConnectionStrings)
-                {
-                    builder.AppendLine(cs.ToString());
-                }
-
-                builder.AppendLine("If your config contains only single connection string make sure you add <clear/>");
-                builder.AppendLine("right below <connectionStrings> to remove machine level connection strings which are automatically");
-                builder.AppendLine("added to your configuration from machine.config.");
-
-                throw new AppSettingException(builder.ToString());
-            }
-
-            if (1 != this.Configuration.ConnectionStrings.ConnectionStrings.Count)
-            {
-                var msg = "There should be single connection string but the are actually {0} connection strings."
-                    .FormatWith(this.Configuration.ConnectionStrings.ConnectionStrings.Count);
-                throw new AppSettingException(msg);
-            }
-        }
     }
 }
